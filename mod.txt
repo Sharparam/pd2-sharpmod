@@ -1,0 +1,120 @@
+{
+    "name" : "SharpMod",
+    "description" : "Sharparam's Payday 2 Mod",
+    "author" : "Sharparam",
+    "contact" : "sharparam@sharparam.com",
+    "version" : "v1.0.0",
+    "priority" : 1,
+    "image": "sharpmod.png",
+    "color" : "0 220 0",
+    "blt_version": 2,
+    "hooks" : [
+        { "hook_id": "lib/entry", "script_path": "init.lua" },
+        { "hook_id": "lib/setups/setup", "script_path": "init.lua" },
+        { "hook_id": "lib/managers/menumanager", "script_path": "init.lua" },
+        { "hook_id": "lib/managers/jobmanager", "script_path": "init.lua" },
+        { "hook_id": "lib/managers/moneymanager", "script_path": "init.lua" },
+        { "hook_id": "lib/managers/DialogManager", "script_path": "init.lua" }
+    ],
+    "keybinds": [
+        {
+            "keybind_id": "sharpmod_menu",
+            "name": "Actions menu",
+            "description": "Toggles the SharpMod actions menu",
+            "script_path": "actions/menu.lua",
+            "run_in_menu": true,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_replenish",
+            "name": "Replenish",
+            "description": "Restores player ammo, health, and down state",
+            "script_path": "actions/replenish.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_bankbuster",
+            "name": "Bank Buster",
+            "description": "Opens all deposit boxes",
+            "script_path": "actions/bankbuster.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_carrystacker",
+            "name": "Carry Stacker",
+            "description": "Toggles carry stacker",
+            "script_path": "actions/carrystacker.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_teleport",
+            "name": "Teleport",
+            "description": "Teleports to where your crosshair is pointing",
+            "script_path": "actions/teleport.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_xray",
+            "name": "Toggle X-Ray",
+            "description": "Toggles the X-ray function",
+            "script_path": "actions/xray.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_waypoints",
+            "name": "Toggle waypoints",
+            "description": "Toggle displaying waypoints for all interactable objects",
+            "script_path": "actions/waypoints.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_tiecivilians",
+            "name": "Tie down civilians",
+            "description": "Ties down all civilians on map",
+            "script_path": "actions/tie_civilians.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_convertall",
+            "name": "Convert all enemies",
+            "description": "Converts all enemies on the map",
+            "script_path": "actions/convert_all.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_killallnpcs",
+            "name": "Kill all NPCs",
+            "description": "Kills all NPCs on map",
+            "script_path": "actions/kill_all_npcs.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
+            "keybind_id": "sharpmod_instantwin",
+            "name": "Instant win",
+            "description": "Instantly complete any mission",
+            "script_path": "actions/instant_win.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        }
+    ]
+}

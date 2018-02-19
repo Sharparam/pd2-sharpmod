@@ -1,0 +1,144 @@
+{
+    "menu_id" : "sharpmod_waypoint_options",
+    "parent_menu_id" : "sharpmod_options",
+    "title" : "sharpmod_waypoint_options",
+    "description": "sharpmod_waypoint_options_desc",
+    "back_callback": "SharpMod_close",
+    "items" : [
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_atm_interaction",
+            "title": "sharpmod_waypoints_atm_interaction",
+            "description": "sharpmod_waypoints_atm_interaction",
+            "callback": "SharpMod_waypoints_set_atm_interaction",
+            "value": "atm_interaction",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_bank_note",
+            "title": "sharpmod_waypoints_bank_note",
+            "description": "sharpmod_waypoints_bank_note",
+            "callback": "SharpMod_waypoints_set_bank_note",
+            "value": "bank_note",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_gage_assignment",
+            "title": "sharpmod_waypoints_gage_assignment",
+            "description": "sharpmod_waypoints_gage_assignment",
+            "callback": "SharpMod_waypoints_set_gage_assignment",
+            "value": "gage_assignment",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_interaction_ball",
+            "title": "sharpmod_waypoints_interaction_ball",
+            "description": "sharpmod_waypoints_interaction_ball",
+            "callback": "SharpMod_waypoints_set_interaction_ball",
+            "value": "interaction_ball",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_invisible_interaction_checking",
+            "title": "sharpmod_waypoints_invisible_interaction_checking",
+            "description": "sharpmod_waypoints_invisible_interaction_checking",
+            "callback": "SharpMod_waypoints_set_invisible_interaction_checking",
+            "value": "invisible_interaction_checking",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_invisible_interaction_open",
+            "title": "sharpmod_waypoints_invisible_interaction_open",
+            "description": "sharpmod_waypoints_invisible_interaction_open",
+            "callback": "SharpMod_waypoints_set_invisible_interaction_open",
+            "value": "invisible_interaction_open",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_money_wrap_single_bundle",
+            "title": "sharpmod_waypoints_money_wrap_single_bundle",
+            "description": "sharpmod_waypoints_money_wrap_single_bundle",
+            "callback": "SharpMod_waypoints_set_money_wrap_single_bundle",
+            "value": "money_wrap_single_bundle",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_open_from_inside",
+            "title": "sharpmod_waypoints_open_from_inside",
+            "description": "sharpmod_waypoints_open_from_inside",
+            "callback": "SharpMod_waypoints_set_open_from_inside",
+            "value": "open_from_inside",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_place_flare",
+            "title": "sharpmod_waypoints_place_flare",
+            "description": "sharpmod_waypoints_place_flare",
+            "callback": "SharpMod_waypoints_set_place_flare",
+            "value": "place_flare",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_read_barcode_activate",
+            "title": "sharpmod_waypoints_read_barcode_activate",
+            "description": "sharpmod_waypoints_read_barcode_activate",
+            "callback": "SharpMod_waypoints_set_read_barcode_activate",
+            "value": "read_barcode_activate",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_security_station",
+            "title": "sharpmod_waypoints_security_station",
+            "description": "sharpmod_waypoints_security_station",
+            "callback": "SharpMod_waypoints_set_security_station",
+            "value": "security_station",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_sewer_manhole",
+            "title": "sharpmod_waypoints_sewer_manhole",
+            "description": "sharpmod_waypoints_sewer_manhole",
+            "callback": "SharpMod_waypoints_set_sewer_manhole",
+            "value": "sewer_manhole",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_shaped_charge",
+            "title": "sharpmod_waypoints_shaped_charge",
+            "description": "sharpmod_waypoints_shaped_charge",
+            "callback": "SharpMod_waypoints_set_shaped_sharge",
+            "value": "shaped_sharge",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_take_confidential_folder_icc",
+            "title": "sharpmod_waypoints_take_confidential_folder_icc",
+            "description": "sharpmod_waypoints_take_confidential_folder_icc",
+            "callback": "SharpMod_waypoints_set_take_confidential_folder_icc",
+            "value": "take_confidential_folder_icc",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_test_interactive_door",
+            "title": "sharpmod_waypoints_test_interactive_door",
+            "description": "sharpmod_waypoints_test_interactive_door",
+            "callback": "SharpMod_waypoints_set_test_interactive_door",
+            "value": "test_interactive_door",
+            "default_value": false
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+# Ignore archives/artifacts
+*.zip
+
+# Ignore build artifacts
+/publish
+/artifacts

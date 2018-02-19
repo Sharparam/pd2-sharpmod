@@ -1,0 +1,96 @@
+{
+    "menu_id" : "sharpmod_options",
+    "parent_menu_id" : "blt_options",
+    "title" : "sharpmod_title",
+    "description": "sharpmod_options_desc",
+    "back_callback": "SharpMod_close",
+    "items" : [
+        {
+            "type": "toggle",
+            "id": "sharpmod_debug",
+            "title": "sharpmod_enable_debug",
+            "description": "sharpmod_enable_debug_desc",
+            "callback": "SharpMod_set_debug",
+            "value": "debug",
+            "default_value": false
+        },
+        {
+            "type": "multiple_choice",
+            "id": "sharpmod_loglevel",
+            "title": "sharpmod_loglevel",
+            "description": "sharpmod_loglevel_desc",
+            "callback": "SharpMod_set_loglevel",
+            "items": [
+                "sharpmod_loglevel_verbose",
+                "sharpmod_loglevel_debug",
+                "sharpmod_loglevel_info",
+                "sharpmod_loglevel_warning",
+                "sharpmod_loglevel_error",
+                "sharpmod_loglevel_fatal",
+                "sharpmod_loglevel_none"
+            ],
+            "value": "loglevel",
+            "default_value": 3
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_disable_anticheat",
+            "title": "sharpmod_disable_anticheat",
+            "description": "sharpmod_disable_anticheat_desc",
+            "callback": "SharpMod_set_disableanticheat",
+            "value": "disable_anticheat",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_enable_debugmenu",
+            "title": "sharpmod_enable_debugmenu",
+            "description": "sharpmod_enable_debugmenu_desc",
+            "callback": "SharpMod_set_enabledebugmenu",
+            "value": "enable_debug_menu",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_penetrating_teleport",
+            "title": "sharpmod_penetrating_teleport",
+            "description": "sharpmod_penetrating_teleport_desc",
+            "callback": "SharpMod_set_penetratingteleport",
+            "value": "penetrating_teleport",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_kill_civilians",
+            "title": "sharpmod_kill_civilians",
+            "description": "sharpmod_kill_civilians_desc",
+            "callback": "SharpMod_set_killcivilians",
+            "value": "kill_civilians",
+            "default_value": true
+        },
+        {
+            "type": "slider",
+            "id": "sharpmod_money_amount",
+            "title": "sharpmod_money_amount",
+            "description": "sharpmod_money_amount_desc",
+            "callback": "SharpMod_set_moneyamount",
+            "value": "money_amount",
+            "default_value": 5000000000,
+            "min": 1000000000,
+            "max": 50000000000,
+            "step": 1000000000
+        },
+        {
+            "type": "slider",
+            "id": "sharpmod_cc_amount",
+            "title": "sharpmod_cc_amount",
+            "description": "sharpmod_cc_amount_desc",
+            "callback": "SharpMod_set_ccamount",
+            "value": "coins_amount",
+            "default_value": 100,
+            "min": 0,
+            "max": 100000,
+            "step": 100
+        }
+    ]
+}
