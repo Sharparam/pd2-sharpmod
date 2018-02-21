@@ -4,10 +4,6 @@ pipeline {
     stages {
         stage('Syntax') {
             steps {
-                sh 'pwd'
-                sh 'ls -l'
-                sh 'sh syntax.sh'
-                sh '$WORKSPACE/syntax.sh'
                 sh './syntax.sh'
             }
         }
