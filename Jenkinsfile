@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Syntax') {
             steps {
-                sh 'syntax.sh'
+                sh './syntax.sh'
             }
         }
 
