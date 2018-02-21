@@ -5,7 +5,7 @@ if sm.cheat_manager then return sm.cheat_manager end
 
 log.debug('Setting up cheat manager')
 
-sm.cheat_manager = {ssss
+sm.cheat_manager = {
     cheats = {}
 }
 
