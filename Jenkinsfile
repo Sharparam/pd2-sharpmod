@@ -4,6 +4,8 @@ pipeline {
     stages {
         stage('Syntax') {
             steps {
+                sh 'ls'
+                sh '$WORKSPACE/syntax.sh'
                 sh './syntax.sh'
             }
         }
