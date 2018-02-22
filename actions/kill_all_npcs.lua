@@ -34,8 +34,12 @@ local function dmg_melee(unit)
                 body = unit:body("body")
             }
         }
+
         unit:unit_data().has_alarm_pager = false
-        unit:character_damage():damage_melee(action_data)
+
+        if (action_data.attacker_unit) then
+            unit:character_damage():damage_melee(action_data)
+        end
     end
 end
 
