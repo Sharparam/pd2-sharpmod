@@ -14,14 +14,11 @@ local ingredient_hints = {
 
 local _queue_dialog_orig = DialogManager.queue_dialog
 function DialogManager:queue_dialog(id, ...)
-    log:debug('Dialog ID: %s', id)
+    log:verbose('Dialog ID: %s', id)
 
     if ingredient_hints[id] then
         local text = ingredient_hints[id]
-        log:info(text)
-        managers.hud:show_hint { text = text }
-        SharpMod:system_message(text)
-        managers.hud:present_mid_text({ title = "Objective Updated", text = text, time = 2 })
+        log:info(text):system(text):hint(text):objective('Objective updated', text)
     end
 
     return _queue_dialog_orig(self, id, ...)

@@ -54,9 +54,11 @@ function log:log(level, message, ...)
     if level < self.level then return end
     local msg = sformat(LOG_FORMAT, log.levels[level], self.context, sformat(message, ...))
     orig_log(msg)
+    return self
 end
 
 function log:verbose(message, ...) return self:log(LEVEL_VERBOSE, message, ...) end
+function log:trace(message, ...) return self:log(LEVEL_VERBOSE, message, ...) end
 function log:debug(message, ...) return self:log(LEVEL_DEBUG, message, ...) end
 function log:info(message, ...) return self:log(LEVEL_INFO, message, ...) end
 function log:warning(message, ...) return self:log(LEVEL_WARNING, message, ...) end
@@ -67,11 +69,13 @@ function log:fatal(message, ...) return self:log(LEVEL_FATAL, message, ...) end
 function log:system(message, ...)
     local msg = "[SharpMod] " .. sformat(message, ...)
     managers.chat:feed_system_message(ChatManager.GAME, msg)
+    return self
 end
 
 function log:hint(message, ...)
     local data = type(message) == 'table' and message or { text = sformat(message, ...) }
     managers.hud:show_hint(data)
+    return self
 end
 
 function log:objective(title, message, ...)
@@ -81,6 +85,7 @@ function log:objective(title, message, ...)
         time = 2
     }
     managers.hud:present_mid_text(data)
+    return self
 end
 
 setmetatable(log, {
