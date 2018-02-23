@@ -15,7 +15,7 @@ local inf_converts_enabled = inf_converts.enabled
 
 inf_converts:enable()
 
-log.info('Converting EVERYONE')
+log:info('Converting EVERYONE')
 
 for _, ud in pairs(all_enemies) do
     local unit = ud.unit

@@ -186,8 +186,8 @@ if not sm.debug_hud then
         RunNewLoopIdent("DebugHud", debug_gui.update, debug_gui)
 
         self.enabled = true
-        log.info('Debug HUD ENABLED')
-        log.system('Debug HUD ENABLED')
+        log:info('Debug HUD ENABLED')
+        log:system('Debug HUD ENABLED')
     end
 
     function debug_hud:disable()
@@ -205,8 +205,8 @@ if not sm.debug_hud then
         end
         debug_gui = nil
         self.enabled = false
-        log.info('Debug HUD DISABLED')
-        log.system('Debug HUD DISABLED')
+        log:info('Debug HUD DISABLED')
+        log:system('Debug HUD DISABLED')
     end
 
     function debug_hud:toggle()

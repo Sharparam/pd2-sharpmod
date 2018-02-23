@@ -41,7 +41,7 @@ local peer_id = M_network:session():local_peer():id()
 function sm.interaction:interactbytweak(...)
     local player = ply_list[1]
     if not player then
-        log.error("interactbytweak(): Local player isn't alive!")
+        log:error("interactbytweak(): Local player isn't alive!")
         return
     end
 

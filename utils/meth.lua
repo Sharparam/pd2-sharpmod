@@ -1,4 +1,4 @@
-local log = SharpMod.log
+local log = SharpMod.log 'meth'
 
 local ingredient_hints = {
     --pln_rt1_12 = 'Ingredient added',
@@ -14,9 +14,11 @@ local ingredient_hints = {
 
 local _queue_dialog_orig = DialogManager.queue_dialog
 function DialogManager:queue_dialog(id, ...)
+    log:debug('Dialog ID: %s', id)
+
     if ingredient_hints[id] then
         local text = ingredient_hints[id]
-        log(text)
+        log:info(text)
         managers.hud:show_hint { text = text }
         SharpMod:system_message(text)
         managers.hud:present_mid_text({ title = "Objective Updated", text = text, time = 2 })

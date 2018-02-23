@@ -1,3 +1,5 @@
+local orig_log = log
+
 if not SharpMod then
     log('Setting up SharpMod, ModPath = ' .. ModPath)
     local sm = {
@@ -18,6 +20,7 @@ if not SharpMod then
             penetrating_teleport = false,
             coins_amount = 100,
             money_amount = 1000000000,
+            free_preplanning = false,
             xray_civ = true,
             xray_civ_r = 0, xray_civ_g = 0, xray_civ_b = 255,
             xray_cops = true,
@@ -34,10 +37,13 @@ if not SharpMod then
                 atm_interaction = true,
                 bank_note = true,
                 big_computer_server = true,
+                c4_x1_bag = true,
                 caustic_soda = true,
                 christmas_present = true,
+                crate_loot = true,
                 crate_loot_crowbar = true,
                 cut_fence = false,
+                diamond_pickup = true,
                 elevator_button_roof = true,
                 gage_assignment = true,
                 gen_pku_artifact_statue = true,
@@ -47,6 +53,7 @@ if not SharpMod then
                 grab_server = true,
                 hack_ipad = true,
                 hack_ipad_jammed = true,
+                hold_grab_goat = true,
                 hold_open_vault = true,
                 hold_take_painting = true,
                 hold_take_server = true,
@@ -62,6 +69,7 @@ if not SharpMod then
                 muriatic_acid = true,
                 open_from_inside = true,
                 pickup_boards = true,
+                pickup_case = true,
                 pickup_harddrive = true,
                 pickup_keycard = true,
                 pickup_keys = true,
@@ -81,33 +89,35 @@ if not SharpMod then
                 take_confidential_folder_icc = true,
                 take_keys = true,
                 take_weapons = true,
+                take_weapons_axis_z = true,
                 test_interactive_door = true,
                 use_bridge = true,
                 use_computer = true,
                 weapon_case = true,
+                weapon_case_axis_z = true
             }
         },
         hooks = {
-            ["lib/managers/menumanager"] = { "options" },
-            ["lib/managers/jobmanager"] = { "utils/jobfix" },
-            ["lib/managers/moneymanager"] = { "utils/moneymanager" },
-            ["lib/managers/dialogmanager"] = { "utils/meth" }
+            ['lib/managers/menumanager'] = { 'options' },
+            ['lib/managers/jobmanager'] = { 'utils/jobfix' },
+            ['lib/managers/moneymanager'] = { 'utils/moneymanager' },
+            ['lib/managers/dialogmanager'] = { 'utils/meth' }
         }
     }
 
-    Color.purple = Color("9932CC")
-    Color.labia = Color("E75480")
-    Color.gold = Color("FFD700")
-    Color.silver = Color("CFCFC4")
-    Color.bronze = Color("CD7F32")
-    Color.neongreen = Color("39FF14")
-    Color.lilac = Color("D891EF")
-    Color.brown = Color("6B4423")
-    Color.grey = Color("B2BEB5")
-    Color.limited = Color("4F7942")
-    Color.unlimited = Color("FDEE00")
-    Color.pro = Color("7BB661")
-    Color.wip = Color("0D98BA")
+    Color.purple = Color('9932CC')
+    Color.labia = Color('E75480')
+    Color.gold = Color('FFD700')
+    Color.silver = Color('CFCFC4')
+    Color.bronze = Color('CD7F32')
+    Color.neongreen = Color('39FF14')
+    Color.lilac = Color('D891EF')
+    Color.brown = Color('6B4423')
+    Color.grey = Color('B2BEB5')
+    Color.limited = Color('4F7942')
+    Color.unlimited = Color('FDEE00')
+    Color.pro = Color('7BB661')
+    Color.wip = Color('0D98BA')
 
     local function transfer_options(source, target)
         for k, v in pairs(source) do
@@ -144,13 +154,13 @@ if not SharpMod then
         local file = io.open(path, 'rb')
 
         if not file then
-            self.log.error('loadscript: Failed to find file %s', path)
+            orig_log('[SharpMod] loadscript: Failed to find file ' .. path)
             return nil
         end
 
         local exec, err = loadstring(file:read('*all'), path)
         file:close()
-        if not exec then log('[SharpMod] loadscript error: ' .. tostring(err)) return end
+        if not exec then orig_log('[SharpMod] loadscript error: ' .. tostring(err)) return end
         local result = { exec() }
         return unpack(result)
     end
@@ -166,15 +176,22 @@ if not SharpMod then
         if succ then
             return ret
         else
-            log.error('in safecall: %s', ret)
+            orig_log('[SharpMod] ERROR in safecall: %s', ret)
         end
     end
 
     function sm:ingame()
         if not game_state_machine then return false end
-        return string.find(game_state_machine:current_state_name(), "game")
+        local current_state = game_state_machine:current_state_name()
+        return string.find(current_state, 'game')
     end
     sm.in_game = sm.ingame
+
+    function sm:in_pregame()
+        if not game_state_machine then return false end
+        local current_state = game_state_machine:current_state_name()
+        return string.find(current_state, 'ingame_waiting_for_players')
+    end
 
     function sm:system_message(msg, data)
         if type(data) == 'table' then msg = managers.localization:text(msg, data) end
@@ -182,12 +199,12 @@ if not SharpMod then
     end
 
     function sm:add_money(value)
-        self.log.info('Attempting to add $%d to inventory', value)
+        self.log:info('Attempting to add $%d to inventory', value)
         managers.money:_add_to_total(value)
     end
 
     function sm:add_cc(value)
-        self.log.info('Attempting to add %d CC to inventory', value)
+        self.log:info('Attempting to add %d CC to inventory', value)
         local current = Application:digest_value(managers.custom_safehouse._global.total)
         local future = current + value
         Global.custom_safehouse_manager.total = Application:digest_value(future, true)
@@ -208,7 +225,7 @@ if sm.options.loglevel then
 end
 
 if not sm.backuper then
-    sm.log.debug('Initializing backuper')
+    sm.log:debug('Initializing backuper')
     local Backuper = sm:require('vendor/backuper')
     sm.backuper = Backuper:new('SharpMod.backuper')
 end
@@ -222,14 +239,17 @@ if sm.options.enable_debug_menu then sm:dofile('utils/enable_debug_menu') end
 
 if GameSetup or sm:in_game() then
     sm:require('utils/cheat_manager')
+    if sm.options.free_preplanning and sm:in_pregame()
+        then sm.cheat_manager.free_preplanning:enable()
+    end
 end
 
-log.debug('Required script: %s', RequiredScript)
+log:debug('Required script: %s', RequiredScript)
 local required_script = RequiredScript:lower()
 
 if sm.hooks[required_script] then
     for _, script in ipairs(sm.hooks[required_script]) do
-        sm.log.info('Loading %s', script)
+        sm.log:info('Loading %s', script)
         sm:dofile(script)
     end
 end

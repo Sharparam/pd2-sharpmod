@@ -25,13 +25,13 @@ function sm.interactionspeed:enable()
         self.speed_changed = speed
         backup(backuper, 'BaseInteractionExt._get_timer')
         function BaseInteractionExt._get_timer() return speed end
-        log.debug('Interaction speed set to %d', speed)
+        log:debug('Interaction speed set to %d', speed)
     end
 
     function BaseInteractionExt:restore_speed()
         restore(backuper, 'BaseInteractionExt._get_timer')
         self.speed_changed = nil
-        log.debug('Interaction speed restored')
+        log:debug('Interaction speed restored')
     end
 
     self.enabled = true
@@ -48,7 +48,7 @@ function sm.interactionspeed:disable()
 
     self.enabled = false
 
-    log.debug('Interaction speed mods disabled')
+    log:debug('Interaction speed mods disabled')
 end
 
 function sm.interactionspeed:toggle_speed(speed)

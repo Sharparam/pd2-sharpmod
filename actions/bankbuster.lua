@@ -15,12 +15,12 @@ for _, v in pairs(managers.interaction._interactive_units) do
     if v.interaction then
         local interaction = v:interaction()
         local id = string.sub(interaction._unit:name():t(), 1, 10)
-        log.verbose('Bankbuster ID: %s', id)
+        log:verbose('Bankbuster ID: %s', id)
         if IDS[id] then
-            log.debug('Bankbuster opening ID %s', id)
+            log:debug('Bankbuster opening ID %s', id)
             interaction:interact(managers.player:player_unit())
         end
     end
 end
 
-log('ALL DEPOSIT BOXES OPENED')
+log:info('ALL DEPOSIT BOXES OPENED')

@@ -31,10 +31,13 @@ if not sm.waypoints then
 
     local replace_items = {
         pickup_keycard = 'equipment_bank_manager_key',
+        crate_loot = 'equipment_barcode',
         crate_loot_crowbar = 'equipment_barcode',
         stash_planks_pickup = 'equipment_planks',
         take_weapons = 'ak',
-        weapon_case = 'ak'
+        take_weapons_axis_z = 'ak',
+        weapon_case = 'ak',
+        weapon_case_axis_z = 'ak'
     }
 
     local temp = {}
@@ -51,12 +54,12 @@ if not sm.waypoints then
         end
 
         if not temp[tweak] and type(waypoint_config[tweak]) == 'nil' then
-            log.warn('Waypoint tweak not configured: %s', tweak)
+            log:warn('Waypoint tweak not configured: %s', tweak)
         end
 
         if waypoint_config[tweak] then
             if not temp[tweak] then
-                log.debug('Adding waypoint for %s', tweak)
+                log:debug('Adding waypoint for %s', tweak)
             end
             M_hud:add_waypoint(tostring(unit:key()), {
                 icon = icon or 'wp_standard',
@@ -107,8 +110,8 @@ if not sm.waypoints then
             return result
         end
         self.enabled = true
-        log.info('Waypoints ENABLED')
-        log.system('Waypoints ENABLED')
+        log:info('Waypoints ENABLED')
+        log:system('Waypoints ENABLED')
     end
 
     function waypoints:disable()
@@ -122,8 +125,8 @@ if not sm.waypoints then
         restore(backuper, 'ObjectInteractionManager.remove_unit')
         restore(backuper, 'ObjectInteractionManager.add_unit')
         self.enabled = false
-        log.info('Waypoints DISABLED')
-        log.system('Waypoints DISABLED')
+        log:info('Waypoints DISABLED')
+        log:system('Waypoints DISABLED')
     end
 
     function waypoints:toggle()

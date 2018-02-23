@@ -24,6 +24,15 @@ Hooks:Add('MenuManagerInitialize', 'MenuManagerInitialize_SharpMod', function(me
     MenuCallbackHandler.SharpMod_set_killcivilians = function(self, item)
         sm.options.kill_civilians = item:value() == 'on'
     end
+    MenuCallbackHandler.SharpMod_set_freepreplanning = function(self, item)
+        local enable = item:value() == 'on'
+        sm.options.free_preplanning = enable
+
+        if not sm.cheat_manager then return end
+
+        local cheat = sm.cheat_manager.free_preplanning
+        if enable then cheat:enable() else cheat:disable() end
+    end
     MenuCallbackHandler.SharpMod_set_moneyamount = function(self, item)
         sm.options.money_amount = item:value()
     end
@@ -47,7 +56,7 @@ Hooks:Add('MenuManagerInitialize', 'MenuManagerInitialize_SharpMod', function(me
                 sm.waypoints:disable()
                 sm.waypoints:enable()
             end
-            log.info('Waypoints for %s turned %s', k, enable and 'on' or 'off')
+            log:info('Waypoints for %s turned %s', k, enable and 'on' or 'off')
         end
     end
 

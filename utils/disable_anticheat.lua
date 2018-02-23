@@ -2,7 +2,7 @@ if not SharpMod.options.disable_anticheat then return end
 
 local log = SharpMod.log
 
-log.info('DISABLING ANTI-CHEAT')
+log:info('DISABLING ANTI-CHEAT')
 
 local PlayerManager = PlayerManager
 local NetworkMember = NetworkMember

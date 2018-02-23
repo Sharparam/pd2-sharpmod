@@ -44,7 +44,7 @@ local function remove_mark(unit)
             contour:remove(custom,sync)
             contour.__custom_type = nil
         else
-            log.error("xray.lua: Missing custom type from unit (probably called on non-xrayed unit)")
+            log:error("xray.lua: Missing custom type from unit (probably called on non-xrayed unit)")
         end
     end
 end

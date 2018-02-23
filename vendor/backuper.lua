@@ -8,7 +8,7 @@ local unpack = unpack
 local clone = clone
 local tab_insert = table.insert
 
-local log = sm.log
+local log = sm.log 'backuper'
 
 local safecall = sm.safecall
 
@@ -31,7 +31,7 @@ function Backuper:backup(stuff_string, name)
     local execute, serr = loadstring(self._name..'._originals[\"'..(name or stuff_string)..'\"] = '..stuff_string)
 
     if serr then
-        return log.error('Backuper:backup(): Failed to backup string %s. Error thrown: %s', stuff_string, serr)
+        return log('backup'):error('Failed to backup string %s. Error thrown: %s', stuff_string, serr)
     end
 
     local success, err = pcall(execute)
@@ -39,7 +39,7 @@ function Backuper:backup(stuff_string, name)
     if success then
         return O[name] or O[stuff_string]
     else
-        log.error('Backuper:backup(): Failed to backup string %s. Error thrown: %s', stuff_string, err)
+        log('backup'):error('Failed to backup string %s. Error thrown: %s', stuff_string, err)
     end
 end
 
@@ -52,12 +52,12 @@ function Backuper:hijack_adv(fstr, new_function)
                 return '..self._name..'._hacked[\''..fstr..'\'][1](  tb, 1, ... )  end')
 
         if serr then
-            return log.error('Backuper:hijack_adv(): Error hijacking function %s. Error thrown: %s', fstr, serr)
+            return log('hijack_adv'):error('Error hijacking function %s. Error thrown: %s', fstr, serr)
         end
 
         local s,res = pcall(exec)
         if not s then
-            return log.error('Backuper:hijack_adv(): Error hijacking function %s. Error thrown: %s', fstr, res)
+            return log('hijack_adv'):error('Error hijacking function %s. Error thrown: %s', fstr, res)
         end
     end
     tab_insert(self._hacked[fstr], new_function)
@@ -85,14 +85,14 @@ function Backuper:hijack(function_string, new_function)
     local exec, serr = loadstring(function_string..' = '..self._name..'._hacked[\''..function_string..'\']')
 
     if serr then
-        return log.error('Backuper:hijack(): Error hijacking function %s. Error thrown: %s', function_string, serr)
+        return log('hijack'):error('Error hijacking function %s. Error thrown: %s', function_string, serr)
     end
 
     local s,res = pcall(exec)
     if s then
         return H[function_string]
     else
-        log.error('Backuper:hijack(): Error hijacking function %s. Error thrown: %s', function_string, res)
+        log('hijack'):error('Error hijacking function %s. Error thrown: %s', function_string, res)
     end
 end
 
@@ -104,7 +104,7 @@ end
 
 function Backuper:add_clbk(function_string, new_function, id, pos)
     if not id or not pos then
-        return log.error('Backuper:add_clbk(): No pos or id was provided')
+        return log('add_clbk'):error('No pos or id was provided')
     end
     local CLBKS = self._callbacks
     local f_clbks = CLBKS[function_string]
@@ -175,7 +175,7 @@ function Backuper:restore(stuff_string, name)
     if n then
         local exec, serr = loadstring(stuff_string .. ' = ' .. self._name .. '._originals["' .. stuff_string .. '"]')
         if serr then
-            return log.error('Backuper:restore(): Failed to restore string %s. Error thrown: %s', stuff_string, serr)
+            return log('restore'):error('Failed to restore string %s. Error thrown: %s', stuff_string, serr)
         end
         local success, err = pcall(exec)
         if success then
@@ -183,7 +183,7 @@ function Backuper:restore(stuff_string, name)
             self._hacked[stuff_string] = nil
             self._callbacks[stuff_string] = nil
         else
-            log.error('Backuper:restore(): Failed to restore string %s. Error thrown: %s', stuff_string, err)
+            log('restore'):error('Failed to restore string %s. Error thrown: %s', stuff_string, err)
         end
     end
 end
@@ -196,7 +196,7 @@ function Backuper:restore_all()
     for n,_ in pairs(self._originals) do
         local exec, serr = loadstring(n .. ' = ' .. name .. '._originals["' .. n .. '"]')
         if serr then
-            log.error('Backuper:restore_all(): Failed to restore string %s. Error thrown: %s', n, serr)
+            log('restore_all'):error('Failed to restore string %s. Error thrown: %s', n, serr)
         else
             local success, err = pcall(exec)
             if success then
@@ -204,7 +204,7 @@ function Backuper:restore_all()
                 _H[n] = nil
                 CLBKS[n] = nil
             else
-                log.error('Backuper:restore_all()','Failed to restore string %s. Error thrown: %s', n, err)
+                log('restore_all'):error('Failed to restore string %s. Error thrown: %s', n, err)
             end
         end
     end

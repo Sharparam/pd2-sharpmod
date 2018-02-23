@@ -15,6 +15,7 @@ local LEVEL_NONE = 7
 local orig_log = _G.log
 
 local log = {
+    context = 'MAIN',
     level = LEVEL_INFO,
     levels = {
         'VERBOSE', -- 1
@@ -36,7 +37,7 @@ local log = {
     }
 }
 
-local LOG_FORMAT = '[SharpMod] %s: %s'
+local LOG_FORMAT = '[SharpMod] %s - %s: %s'
 
 local function nametoid(name)
     if type(name) ~= 'string' then name = tostring(name) end
@@ -44,36 +45,36 @@ local function nametoid(name)
     return log.ids[name]
 end
 
-function log.log(level, message, ...)
+function log:log(level, message, ...)
     if type(level) == 'string' then
         level = nametoid(level)
-        if not level then return log.log(LEVEL_INFO, level, message, ...) end
+        if not level then return self:log(LEVEL_INFO, level, message, ...) end
     end
     if type(message) ~= 'string' then message = tostring(message) end
-    if level < log.level then return end
-    local msg = sformat(LOG_FORMAT, log.levels[level], sformat(message, ...))
+    if level < self.level then return end
+    local msg = sformat(LOG_FORMAT, log.levels[level], self.context, sformat(message, ...))
     orig_log(msg)
 end
 
-function log.verbose(message, ...) return log.log(LEVEL_VERBOSE, message, ...) end
-function log.debug(message, ...) return log.log(LEVEL_DEBUG, message, ...) end
-function log.info(message, ...) return log.log(LEVEL_INFO, message, ...) end
-function log.warning(message, ...) return log.log(LEVEL_WARNING, message, ...) end
-function log.warn(message, ...) return log.log(LEVEL_WARNING, message, ...) end
-function log.error(message, ...) return log.log(LEVEL_ERROR, message, ...) end
-function log.fatal(message, ...) return log.log(LEVEL_FATAL, message, ...) end
+function log:verbose(message, ...) return self:log(LEVEL_VERBOSE, message, ...) end
+function log:debug(message, ...) return self:log(LEVEL_DEBUG, message, ...) end
+function log:info(message, ...) return self:log(LEVEL_INFO, message, ...) end
+function log:warning(message, ...) return self:log(LEVEL_WARNING, message, ...) end
+function log:warn(message, ...) return self:log(LEVEL_WARNING, message, ...) end
+function log:error(message, ...) return self:log(LEVEL_ERROR, message, ...) end
+function log:fatal(message, ...) return self:log(LEVEL_FATAL, message, ...) end
 
-function log.system(message, ...)
+function log:system(message, ...)
     local msg = "[SharpMod] " .. sformat(message, ...)
     managers.chat:feed_system_message(ChatManager.GAME, msg)
 end
 
-function log.hint(message, ...)
+function log:hint(message, ...)
     local data = type(message) == 'table' and message or { text = sformat(message, ...) }
     managers.hud:show_hint(data)
 end
 
-function log.objective(title, message, ...)
+function log:objective(title, message, ...)
     local data = type(title) == 'table' and title or {
         title = title,
         text = sformat(message, ...),
@@ -82,6 +83,15 @@ function log.objective(title, message, ...)
     managers.hud:present_mid_text(data)
 end
 
-setmetatable(log, { __call = function(tbl, ...) tbl.log(...) end })
+setmetatable(log, {
+    __call = function(tbl, context, ...)
+        return setmetatable({ context = context }, {
+            __index = function(t, k) return tbl[k] end,
+            __call = function(t, c, ...)
+                return getmetatable(tbl).__call(tbl, t.context .. '.' .. c, ...)
+            end
+        })
+    end
+})
 
 return log

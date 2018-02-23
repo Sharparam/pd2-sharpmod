@@ -69,6 +69,15 @@
             "default_value": true
         },
         {
+            "type": "toggle",
+            "id": "sharpmod_free_preplanning",
+            "title": "sharpmod_free_preplanning",
+            "description": "sharpmod_free_preplanning_desc",
+            "callback": "SharpMod_set_freepreplanning",
+            "value": "free_preplanning",
+            "default_value": false
+        },
+        {
             "type": "slider",
             "id": "sharpmod_money_amount",
             "title": "sharpmod_money_amount",

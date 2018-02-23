@@ -20,6 +20,8 @@
     "sharpmod_penetrating_teleport_desc": "Enable to teleport through walls and props",
     "sharpmod_kill_civilians": "Kill civilians from script",
     "sharpmod_kill_civilians_desc": "Kill civilians when running 'Kill All NPCs' script",
+    "sharpmod_free_preplanning": "Free pre-planning",
+    "sharpmod_free_preplanning_desc": "Removes both money and favor cost of pre-planning",
     "sharpmod_money_amount": "Money amount",
     "sharpmod_money_amount_desc": "Amount of money to add on each use",
     "sharpmod_money_add": "Add money",

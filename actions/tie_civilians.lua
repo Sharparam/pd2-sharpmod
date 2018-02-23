@@ -1,7 +1,7 @@
 local sm = SharpMod
 local log = sm.log
 
-log.info('TYING DOWN ALL CIVILIANS')
+log:info('TYING DOWN ALL CIVILIANS')
 
 local managers = managers
 local M_player = managers.player

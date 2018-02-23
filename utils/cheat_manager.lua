@@ -3,7 +3,7 @@ local log = sm.log
 
 if sm.cheat_manager then return sm.cheat_manager end
 
-log.debug('Setting up cheat manager')
+log:debug('Setting up cheat manager')
 
 sm.cheat_manager = {
     cheats = {}
@@ -23,18 +23,18 @@ function cm:add(id, name, enable, disable)
 
     cheat.enable = function(self)
         if self.enabled then return end
-        self.enable_func()
+        self.enable_func(self)
         self.enabled = true
-        log.info('%s ENABLED', self.name)
-        log.system('%s ENABLED', self.name)
+        log:info('%s ENABLED', self.name)
+        log:system('%s ENABLED', self.name)
     end
 
     cheat.disable = function(self)
         if not self.enabled then return end
-        self.disable_func()
+        self.disable_func(self)
         self.enabled = false
-        log.info('%s DISABLED', self.name)
-        log.system('%s DISABLED', self.name)
+        log:info('%s DISABLED', self.name)
+        log:system('%s DISABLED', self.name)
     end
 
     cheat.toggle = function(self)
@@ -54,30 +54,13 @@ function cm:has_cheat(id)
     return type(rawget(self.cheats, id)) ~= 'nil'
 end
 
-log.debug('cheat_manager: Loading vendor scripts')
+log:debug('cheat_manager: Loading vendor scripts')
 sm:require 'vendor/player_equip_fix'
 sm:require 'vendor/player_upgrade_hack'
 sm:require 'vendor/pubinfloopv2'
 
-log.debug('cheat_manager: Loading interaction speed helper')
+log:debug('cheat_manager: Loading interaction speed helper')
 local interactionspeed = sm:require 'utils/interactionspeed'
-
--- local files = file.GetFiles(sm.base_path .. 'utils/cheats')
--- for i = 1, #files do
---     local file = files[i]
---     log.debug('Calling require on cheat %s', file)
---     sm:require(file, false)
--- end
--- sm:require 'utils/cheats/drillrepair'
--- sm:require 'utils/cheats/godmode'
--- sm:require 'utils/cheats/infinite_ammo'
--- sm:require 'utils/cheats/infinite_bodybags'
--- sm:require 'utils/cheats/infinite_cableties'
--- sm:require 'utils/cheats/infinite_converts'
--- sm:require 'utils/cheats/infinite_equipment'
--- sm:require 'utils/cheats/instant_drills'
--- sm:require 'utils/cheats/instant_intimidation'
--- sm:require 'utils/cheats/interact_with_all'
 
 local fun_cheats = {
     'godmode', 'infinite_ammo', 'infinite_converts', 'infinite_equipment', 'instant_drills',
@@ -86,8 +69,8 @@ local fun_cheats = {
 }
 
 function cm:enable_funmode()
-    log.info('Enabling FUN MODE')
-    log.system('Enabling FUN MODE')
+    log:info('Enabling FUN MODE')
+    log:system('Enabling FUN MODE')
     interactionspeed:enable_instant()
     for i = 1, #fun_cheats do
         self.cheats[fun_cheats[i]]:enable()
@@ -99,14 +82,14 @@ function cm:disable_funmode()
         self.cheats[fun_cheats[i]]:disable()
     end
     interactionspeed:disable()
-    log.info('Fun mode disabled')
-    log.system('Fun mode disabled')
+    log:info('Fun mode disabled')
+    log:system('Fun mode disabled')
 end
 
-log.debug('cheat_manager: Setting up meta tables')
+log:debug('cheat_manager: Setting up meta tables')
 
 local function init_cheat(id)
-    log.warn('%s not found in cheats table, attempting to load it', id)
+    log:warn('%s not found in cheats table, attempting to load it', id)
     local cheat = sm:require('utils/cheats/' .. id)
     if type(rawget(cm.cheats, id)) == 'nil' then rawset(cm.cheats, id, cheat) end
     return cheat
@@ -124,5 +107,5 @@ setmetatable(cm, {
     end
 })
 
-log.debug('Cheat manager init finished, returning module')
+log:debug('Cheat manager init finished, returning module')
 return sm.cheat_manager
