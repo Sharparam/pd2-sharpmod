@@ -43,6 +43,7 @@ if not SharpMod then
                 crate_loot = true,
                 crate_loot_crowbar = true,
                 cut_fence = false,
+                cut_glass = true,
                 diamond_pickup = true,
                 elevator_button_roof = true,
                 gage_assignment = true,
