@@ -9,6 +9,10 @@ local options = {
         callback = function() sm:dofile('actions/bankbuster') end
     },
     {
+        text = 'Secure all loot',
+        callback = function() sm:dofile('actions/secure_all') end
+    },
+    {
         text = 'Carry Stacker',
         callback = function() sm:dofile('actions/carrystacker') end
     },

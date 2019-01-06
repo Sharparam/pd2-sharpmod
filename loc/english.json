@@ -30,6 +30,7 @@
     "sharpmod_cc_amount_desc": "Amount of continental coins to give on each use",
     "sharpmod_cc_add": "Add continental coins",
     "sharpmod_cc_add_desc": "Adds the configured continental coins amount to inventory",
+    "sharpmod_secure_all": "Secure all loot",
 
     "sharpmod_waypoint_options": "Waypoint options",
     "sharpmod_waypoint_options_desc": "Toggle what items to show waypoints for",

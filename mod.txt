@@ -45,6 +45,15 @@
             "localized": false
         },
         {
+            "keybind_id": "sharpmod_secure_all",
+            "name": "Secure all loot",
+            "description": "Secures all loot on map",
+            "script_path": "actions/secure_all.lua",
+            "run_in_menu": false,
+            "run_in_game": true,
+            "localized": false
+        },
+        {
             "keybind_id": "sharpmod_carrystacker",
             "name": "Carry Stacker",
             "description": "Toggles carry stacker",
