@@ -244,6 +244,7 @@ end)
 
 if sm.options.disable_anticheat then sm:dofile('utils/disable_anticheat') end
 if sm.options.enable_debug_menu then sm:dofile('utils/enable_debug_menu') end
+if sm.options.hide_news then sm:dofile('vendor/hide_news') end
 
 if GameSetup or sm:in_game() then
     sm:require('utils/cheat_manager')

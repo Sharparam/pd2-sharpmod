@@ -9,6 +9,12 @@ Hooks:Add('MenuManagerInitialize', 'MenuManagerInitialize_SharpMod', function(me
         sm.options.loglevel = level
         sm.log.level = level
     end
+    MenuCallbackHandler.SharpMod_set_hidenews = function(self, item)
+        sm.options.hide_news = item:value() == 'on'
+        if sm.options.hide_news then
+            sm:dofile('vendor/hide_news')
+        end
+    end
     MenuCallbackHandler.SharpMod_set_disableanticheat = function(self, item)
         sm.options.disable_anticheat = item:value() == 'on'
     end

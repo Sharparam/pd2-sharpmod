@@ -12,6 +12,8 @@
     "sharpmod_loglevel_error": "ERROR",
     "sharpmod_loglevel_fatal": "FATAL",
     "sharpmod_loglevel_none": "DISABLED",
+    "sharpmod_hide_news": "Hide news banner",
+    "sharpmod_hide_news_desc": "Hides the news banner in the bottom right on the main menu",
     "sharpmod_disable_anticheat": "Disable Anti-Cheat",
     "sharpmod_disable_anticheat_desc": "Disables the Anti-Cheat detection",
     "sharpmod_enable_debugmenu": "Enable debug menu",

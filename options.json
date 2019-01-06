@@ -34,6 +34,15 @@
         },
         {
             "type": "toggle",
+            "id": "sharpmod_hide_news",
+            "title": "sharpmod_hide_news",
+            "description": "sharpmod_hide_news_desc",
+            "callback": "SharpMod_set_hidenews",
+            "value": "hide_news",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
             "id": "sharpmod_disable_anticheat",
             "title": "sharpmod_disable_anticheat",
             "description": "sharpmod_disable_anticheat_desc",
