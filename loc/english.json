@@ -41,6 +41,8 @@
     "sharpmod_waypoints_invisible_interaction_open": "Invisible interaction open",
     "sharpmod_waypoints_money_wrap_single_bundle": "Small money bundles",
     "sharpmod_waypoints_open_from_inside": "Open from inside",
+    "sharpmod_waypoints_pick_lock_easy_no_skill": "Pick lock (easy, no skill)",
+    "sharpmod_waypoints_pick_lock_hard_no_skill": "Pick lock (hard, no skill)",
     "sharpmod_waypoints_place_flare": "Place flare",
     "sharpmod_waypoints_read_barcode_activate": "Read barcode activate",
     "sharpmod_waypoints_security_station": "Security station",

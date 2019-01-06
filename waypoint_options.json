@@ -79,6 +79,24 @@
         },
         {
             "type": "toggle",
+            "id": "sharpmod_waypoints_pick_lock_easy_no_skill",
+            "title": "sharpmod_waypoints_pick_lock_easy_no_skill",
+            "description": "sharpmod_waypoints_pick_lock_easy_no_skill",
+            "callback": "SharpMod_waypoints_set_pick_lock_easy_no_skill",
+            "value": "pick_lock_easy_no_skill",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_waypoints_pick_lock_hard_no_skill",
+            "title": "sharpmod_waypoints_pick_lock_hard_no_skill",
+            "description": "sharpmod_waypoints_pick_lock_hard_no_skill",
+            "callback": "SharpMod_waypoints_set_pick_lock_hard_no_skill",
+            "value": "pick_lock_hard_no_skill",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
             "id": "sharpmod_waypoints_place_flare",
             "title": "sharpmod_waypoints_place_flare",
             "description": "sharpmod_waypoints_place_flare",
