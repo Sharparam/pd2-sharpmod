@@ -103,6 +103,12 @@ if not _G.SharpMod then
                 use_computer = true,
                 weapon_case = true,
                 weapon_case_axis_z = true
+            },
+            meth = {
+                enabled = true,
+                chat = false,
+                ingredients = true,
+                status = false
             }
         },
         hooks = {

@@ -87,6 +87,12 @@ function log:objective(title, message, ...)
     return self
 end
 
+function log:chat(message, ...)
+    local msg = "[SharpMod] " .. sformat(message, ...)
+    local username = managers.network.account:username() or "Offline"
+    managers.chat:send_message(ChatManager.GAME, username, msg)
+end
+
 setmetatable(log, {
     __call = function(tbl, context)
         return setmetatable({ context = context }, {

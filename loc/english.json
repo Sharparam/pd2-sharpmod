@@ -52,5 +52,16 @@
     "sharpmod_waypoints_sewer_manhole": "Sewer manhole",
     "sharpmod_waypoints_shaped_charge": "Shaped charge",
     "sharpmod_waypoints_take_confidential_folder_icc": "Confidential folder (ICC)",
-    "sharpmod_waypoints_test_interactive_door": "Test interactive door"
+    "sharpmod_waypoints_test_interactive_door": "Test interactive door",
+
+    "sharpmod_meth_options": "Meth helper options",
+    "sharpmod_meth_options_desc": "Configure how the meth helper behaves",
+    "sharpmod_meth_enabled": "Enable meth helper",
+    "sharpmod_meth_enabled_desc": "Toggles whether the meth helper should be enabled at all",
+    "sharpmod_meth_chat": "Send instructions to chat",
+    "sharpmod_meth_chat_desc": "If enabled, meth instructions will be sent to the chat for all to see",
+    "sharpmod_meth_ingredient_hints": "Show ingredient hints",
+    "sharpmod_meth_ingredient_hints_desc": "If enabled, hints will be shown about what ingredient to add next",
+    "sharpmod_meth_status_hints": "Show status hints",
+    "sharpmod_meth_status_hints_desc": "If enabled, hints will be shown about the meth cooking status"
 }

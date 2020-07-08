@@ -1,0 +1,45 @@
+{
+    "menu_id": "sharpmod_meth_options",
+    "parent_menu_id": "sharpmod_options",
+    "title": "sharpmod_meth_options",
+    "description": "sharpmod_meth_options_desc",
+    "back_callback": "SharpMod_close",
+    "items": [
+        {
+            "type": "toggle",
+            "id": "sharpmod_meth_enabled",
+            "title": "sharpmod_meth_enabled",
+            "description": "sharpmod_meth_enabled_desc",
+            "callback": "SharpMod_meth_set_enabled",
+            "value": "meth_enabled",
+            "default_value": true
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_meth_chat",
+            "title": "sharpmod_meth_chat",
+            "description": "sharpmod_meth_chat_desc",
+            "callback": "SharpMod_meth_set_chat",
+            "value": "meth_chat",
+            "default_value": false
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_meth_ingredient_hints",
+            "title": "sharpmod_meth_ingredient_hints",
+            "description": "sharpmod_meth_ingredient_hints_desc",
+            "callback": "SharpMod_meth_set_ingredient_hints",
+            "value": "meth_ingredient_hints",
+            "default_value": true
+        },
+        {
+            "type": "toggle",
+            "id": "sharpmod_meth_status_hints",
+            "title": "sharpmod_meth_status_hints",
+            "description": "sharpmod_meth_status_hints_desc",
+            "callback": "SharpMod_meth_set_status_hints",
+            "value": "meth_status_hints",
+            "default_value": false
+        }
+    ]
+}
