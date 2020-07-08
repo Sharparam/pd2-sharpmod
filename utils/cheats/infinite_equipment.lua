@@ -1,4 +1,4 @@
-return SharpMod.cheat_manager:add('infinite_equipment', 'Infinite equipment', function()
+return _G.SharpMod.cheat_manager:add('infinite_equipment', 'Infinite equipment', function()
     PlayerManager.set_infinite_equipment(0, true)
 end, function()
     PlayerManager.set_infinite_equipment(0, false)

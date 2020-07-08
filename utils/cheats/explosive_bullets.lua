@@ -1,5 +1,5 @@
-return SharpMod.cheat_manager:add('explosive_bullets', 'Explosive bullets', function()
-    SharpMod.backuper:hijack('NewRaycastWeaponBase._fire_raycast',function( o, self, ... )
+return _G.SharpMod.cheat_manager:add('explosive_bullets', 'Explosive bullets', function()
+    _G.SharpMod.backuper:hijack('NewRaycastWeaponBase._fire_raycast',function( o, self, ... )
         local old_class = self._bullet_class
         self._bullet_class = InstantExplosiveBulletBase
         local r = o( self, ...)
@@ -8,7 +8,7 @@ return SharpMod.cheat_manager:add('explosive_bullets', 'Explosive bullets', func
     end)
 
     if NewShotgunBase then
-        SharpMod.backuper:hijack('NewShotgunBase._fire_raycast',function( o, self, ... )
+        _G.SharpMod.backuper:hijack('NewShotgunBase._fire_raycast',function( o, self, ... )
             local old_class = self._bullet_class
             self._bullet_class = InstantExplosiveBulletBase
             local r = o( self, ...)
@@ -17,8 +17,8 @@ return SharpMod.cheat_manager:add('explosive_bullets', 'Explosive bullets', func
         end)
     end
 end, function()
-    SharpMod.backuper:restore('NewRaycastWeaponBase._fire_raycast')
+    _G.SharpMod.backuper:restore('NewRaycastWeaponBase._fire_raycast')
     if NewShotgunBase then
-        SharpMod.backuper:restore('NewShotgunBase._fire_raycast')
+        _G.SharpMod.backuper:restore('NewShotgunBase._fire_raycast')
     end
 end)

@@ -113,7 +113,7 @@ if not cs.Setup then
     end
 
     -- overridden to always allow us to pick up a carry item
-    function CarryInteractionExt:_interact_blocked(player)
+    function CarryInteractionExt:_interact_blocked()
         return not managers.player:can_carry(self._unit:carry_data():carry_id())
     end
 
