@@ -263,6 +263,6 @@ if sm.hooks[required_script] then
     end
 end
 
-log:info('_VERSION == %s', _VERSION)
+log:debug('_VERSION == %s', _VERSION)
 
 return sm
