@@ -1,4 +1,4 @@
-return SharpMod.cheat_manager:add('infinite_ammo', 'Infinite ammo', function()
+return _G.SharpMod.cheat_manager:add('infinite_ammo', 'Infinite ammo', function()
     PlayerManager:hack_upgrade_value('', 'consume_no_ammo_chance', 2)
 end, function()
     PlayerManager:hack_upgrade_value('', 'consume_no_ammo_chance')

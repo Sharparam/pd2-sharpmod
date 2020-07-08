@@ -4,11 +4,9 @@ end]]
 
 if not GameSetup then return end
 
-local sm = SharpMod
+local sm = _G.SharpMod
 sm.xray = sm.xray or {}
 local log = sm.log
-
-local alive = alive
 
 local pairs = pairs
 
@@ -51,19 +49,54 @@ end
 
 local Color = Color
 local _types = ContourExt._types
-_types.xray_civilians = { priority = 1, color = opts.xray_civ_r and Color(opts.xray_civ_r / 255, opts.xray_civ_g / 255, opts.xray_civ_b / 255) or Color.cyan, material_swap_required = true }
-_types.xray_enemies = { priority = 1, color = opts.xray_cops_r and Color(opts.xray_cops_r / 255, opts.xray_cops_g / 255, opts.xray_cops_b / 255) or Color.red, material_swap_required = true }
-_types.xray_specials = { priority = 1, color = opts.xray_special_r and Color(opts.xray_special_r / 255, opts.xray_special_g / 255, opts.xray_special_b / 255) or Color.purple, material_swap_required = true }
-_types.xray_snipers = { priority = 1, color = opts.xray_sniper_r and Color(opts.xray_sniper_r / 255, opts.xray_sniper_g / 255, opts.xray_sniper_b / 255) or Color(0,0.5,0), material_swap_required = true }
-_types.xray_cams = { priority = 1, color = opts.xray_cams_r and Color(opts.xray_cams_r / 255, opts.xray_cams_g / 255, opts.xray_cams_b / 255) or Color(1,0.2,0) }
-_types.xray_friendly = { priority = 1, color = opts.xray_friendly_r and Color(opts.xray_friendly_r / 255, opts.xray_friendly_g / 255, opts.xray_friendly_b / 255) or Color(0.2,0.8,1), material_swap_required = true }
+_types.xray_civilians = {
+    priority = 1,
+    color = opts.xray_civ_r
+        and Color(opts.xray_civ_r / 255, opts.xray_civ_g / 255, opts.xray_civ_b / 255)
+        or Color.cyan,
+    material_swap_required = true
+}
+_types.xray_enemies = {
+    priority = 1,
+    color = opts.xray_cops_r
+        and Color(opts.xray_cops_r / 255, opts.xray_cops_g / 255, opts.xray_cops_b / 255)
+        or Color.red,
+    material_swap_required = true
+}
+_types.xray_specials = {
+    priority = 1,
+    color = opts.xray_special_r
+        and Color(opts.xray_special_r / 255, opts.xray_special_g / 255, opts.xray_special_b / 255)
+        or Color.purple,
+    material_swap_required = true
+}
+_types.xray_snipers = {
+    priority = 1,
+    color = opts.xray_sniper_r
+        and Color(opts.xray_sniper_r / 255, opts.xray_sniper_g / 255, opts.xray_sniper_b / 255)
+        or Color(0,0.5,0),
+    material_swap_required = true
+}
+_types.xray_cams = {
+    priority = 1,
+    color = opts.xray_cams_r
+        and Color(opts.xray_cams_r / 255, opts.xray_cams_g / 255, opts.xray_cams_b / 255)
+        or Color(1,0.2,0)
+}
+_types.xray_friendly = {
+    priority = 1,
+    color = opts.xray_friendly_r
+        and Color(opts.xray_friendly_r / 255, opts.xray_friendly_g / 255, opts.xray_friendly_b / 255)
+        or Color(0.2,0.8,1),
+    material_swap_required = true
+}
 
 local function mark(unit,color)
     local contour = unit.contour
-    contour = contour and contour( unit )
+    contour = contour and contour(unit)
     if contour then
         local custom = contour.__custom_type
-        if ( custom ) then --Was xrayed before, remove his mark
+        if custom then -- Was xrayed before, remove his mark
             contour:remove(custom,sync)
         end
         contour:add(color,sync)
@@ -82,10 +115,10 @@ local mark_disable = {
     'switch_to_no_glow_mtr'
 }
 
-local function mark_item( unit, index, remove )
-    if (index) then
+local function mark_item(unit, index, remove)
+    if index then
         local damage_ext = unit:damage()
-        if (damage_ext) then
+        if damage_ext then
             local sequence = remove and mark_disable[index] or mark_enable[index]
             if damage_ext:has_sequence(sequence) then
                 damage_ext:run_sequence_simple(sequence)
@@ -94,7 +127,7 @@ local function mark_item( unit, index, remove )
     end
 end
 
---Special enemies
+-- Special enemies
 local special_ids = {
     ['b37f2c8943a4ceb0'] = true,
     ['d46d8583bb15b100'] = true,
@@ -105,7 +138,7 @@ local special_ids = {
     ['d8e8276a44b4dad5'] = true,
     ['f0fec102c6f850ec'] = true,
     ['bc078a7d66cfe569'] = true,
-    --Husk units below!
+    -- Husk units below!
     ['28a21b4d89c298cf'] = true,
     ['efc7018e740fd64d'] = true,
     ['3b62cdab5b11dce1'] = true,
@@ -117,56 +150,63 @@ local special_ids = {
     ['73d547546ef5ff5c'] = true,
 }
 
---Snipers
+-- Snipers
 local sniper_ids = {
     ['ffcb30c12128fc5b'] = true,
     ['490944f03e56fcf0'] = true,
-    --Husk units below!
+    -- Husk units below!
     ['44ffa22668e9271f'] = true,
     ['2ef5563d908aa105'] = true,
 }
 
---Items
---I use indexes, since different items need different sequences
+-- Items
+-- Use indexes, since different items need different sequences
 local items_ids = {
-    ['dd0578dda618e1b0'] = 2, --pickup_phone
-    ['bb82cfc66c4ae490'] = 2, --pickup_tablet
-    ['cfbdf015882c1e9e'] = 2, --use_computer
-    ['54e8d784dbceaf07'] = 1, --stash_server_pickup
-    ['5422d8b99c7c1b57'] = 3, --pickup_keycard
+    ['dd0578dda618e1b0'] = 2, -- pickup_phone
+    ['bb82cfc66c4ae490'] = 2, -- pickup_tablet
+    ['cfbdf015882c1e9e'] = 2, -- use_computer
+    ['54e8d784dbceaf07'] = 1, -- stash_server_pickup
+    ['5422d8b99c7c1b57'] = 3, -- pickup_keycard
     --['9c3047f8cc5c3d14'] = true,
     --['c9b068ac7994ad04'] = true,
     --['9ed5ee9a1ebb1f55'] = true,
     --['d904ebd1e81458a8'] = true,
 }
 
-local function id_color(unit) --Identity to what color we need color special enemy
+local function id_color(unit) -- Identity to what color we need color special enemy
     local u_key = unit:name():key()
     local movement = unit:movement()
     local team = movement and movement._team
     team = team and team.id
-    return ((unit:in_slot( 16 ) or team == 'criminal1') and friendly) or (special_ids[u_key] and specials) or (sniper_ids[u_key] and snipers) or enemies
+    return (
+            (unit:in_slot( 16 ) or team == 'criminal1')
+            and friendly
+        ) or (
+            special_ids[u_key] and specials
+        ) or (
+            sniper_ids[u_key] and snipers
+        ) or enemies
 end
---Notes: 16th slot is for harmless criminal (converted cops use it)
+-- Notes: 16th slot is for harmless criminal (converted cops use it)
 
-local function on_enemy_registered(o,self,unit)
+local function on_enemy_registered(_, _, unit)
     mark(unit,id_color(unit))
 end
 
-local function on_civ_registered(o,self,unit)
+local function on_civ_registered(_, _, unit)
     mark(unit,civilians)
 end
 
-local function on_unit_died(o,self,dead_unit) --Contour being removed once marked target is dead
+local function on_unit_died(_, _, dead_unit) -- Contour being removed once marked target is dead
     remove_mark(dead_unit)
 end
 
-local function before_criminal_convert( o, self )
-    remove_mark( self._unit )
+local function before_criminal_convert(_, self)
+    remove_mark(self._unit)
 end
 
-local function after_criminal_convert( r, self )
-    mark( self._unit, friendly )
+local function after_criminal_convert(_, self)
+    mark(self._unit, friendly)
 end
 --[[TO DO
 local function on_team_changed( r, self, team_data )
@@ -215,11 +255,15 @@ local function TOGGLE()
     end
     --Switch ON
     if opts.xray_cops then
-        add_clbk(backuper, 'EnemyManager.register_enemy',on_enemy_registered,'register', 1) --Marks when unit just spawned
+        -- Marks when unit just spawned
+        add_clbk(backuper, 'EnemyManager.register_enemy',on_enemy_registered,'register', 1)
         add_clbk(backuper, 'EnemyManager.on_enemy_died',on_unit_died,'die', 1) --Removes mark when unit just died
-        add_clbk(backuper, 'CopBrain.convert_to_criminal',before_criminal_convert, 'convert', 1) --Removes mark when cop being converted to criminal
-        add_clbk(backuper, 'CopBrain.convert_to_criminal',after_criminal_convert,'convert', 2) --Mark again on full convertion
-        --add_clbk(backuper, 'CopMovement.set_team', on_team_changed, 'xray_handle', 2) --Updates unit's color on team change
+        -- Removes mark when cop being converted to criminal
+        add_clbk(backuper, 'CopBrain.convert_to_criminal',before_criminal_convert, 'convert', 1)
+        -- Mark again on full convertion
+        add_clbk(backuper, 'CopBrain.convert_to_criminal',after_criminal_convert,'convert', 2)
+        -- Updates unit's color on team change
+        --add_clbk(backuper, 'CopMovement.set_team', on_team_changed, 'xray_handle', 2)
 
         for _,ud in pairs(AllEnemies) do
             local unit = ud.unit

@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 
 local loadstring = loadstring
 local pcall = pcall
@@ -47,9 +47,12 @@ function Backuper:hijack_adv(fstr, new_function)
     if not self._hacked[fstr] then
         self:backup(fstr)
         self._hacked[fstr] = {}
-        local exec, serr = loadstring(fstr..' = function(...) local tb = { '..self._name..'._originals[\''..fstr..'\'] } \
-            for _,func in ipairs('..self._name..'._hacked[\''..fstr..'\']) do table.insert(tb, func) end    \
-                return '..self._name..'._hacked[\''..fstr..'\'][1](  tb, 1, ... )  end')
+        local exec, serr = loadstring(
+            fstr .. ' = function(...) local tb = { ' .. self._name .. '._originals[\'' .. fstr
+            .. '\'] } for _,func in ipairs(' .. self._name .. '._hacked[\'' .. fstr .. '\']) do \
+            table.insert(tb, func) end return ' .. self._name .. '._hacked[\'' .. fstr
+            .. '\'][1](  tb, 1, ... )  end'
+        )
 
         if serr then
             return log('hijack_adv'):error('Error hijacking function %s. Error thrown: %s', fstr, serr)
@@ -151,8 +154,8 @@ function Backuper:remove_clbk(function_string, id, pos)
             b_clbks[id] = nil
             a_clbks [id] = nil
         elseif not id then
-            for id,_ in pairs(clone(p_clbks)) do
-                p_clbks[id] = nil
+            for clbk_id, _ in pairs(clone(p_clbks)) do
+                p_clbks[clbk_id] = nil
             end
         elseif not id and not pos then
             self:restore( function_string )

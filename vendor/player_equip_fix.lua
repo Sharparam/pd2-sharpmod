@@ -1,11 +1,11 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 
 if sm.player_equip_fix then return end
 
-local log = sm.log
+--local log = sm.log
 
 local PlayerManager = PlayerManager
-local equipment_data_by_name = PlayerManager.equipment_data_by_name
+--local equipment_data_by_name = PlayerManager.equipment_data_by_name
 
 local backuper = sm.backuper
 local hijack = backuper.hijack
@@ -29,7 +29,7 @@ PlayerManager.set_infinite_equipment = set_infinite
 
 hijack(backuper, 'PlayerManager.remove_equipment', function(o, self, equipment_id, ...)
     if (all_blocked or infinite_equipments[equipment_id]) then return end
-    local equipment, index = self:equipment_data_by_name(equipment_id)
+    local equipment = self:equipment_data_by_name(equipment_id)
     if (equipment) then
         return o(self, equipment_id, ...)
     end

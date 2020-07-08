@@ -1,8 +1,7 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 
 if sm.player_upgrade_hack_enabled then return end
 
-local pairs = pairs
 local type = type
 local select = select
 local function is_str(...)

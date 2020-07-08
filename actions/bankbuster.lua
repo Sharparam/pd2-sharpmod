@@ -1,4 +1,4 @@
-local log = SharpMod.log
+local log = _G.SharpMod.log
 
 local IDS = {
     ['@ID7999172'] = true, -- Harvest & Trustee Bank

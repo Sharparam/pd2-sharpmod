@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 if sm.cheat_manager then return sm.cheat_manager end
@@ -21,24 +21,24 @@ function cm:add(id, name, enable, disable)
         disable_func = disable
     }
 
-    cheat.enable = function(self)
-        if self.enabled then return end
-        self.enable_func(self)
-        self.enabled = true
-        log:info('%s ENABLED', self.name)
-        log:system('%s ENABLED', self.name)
+    cheat.enable = function(c)
+        if c.enabled then return end
+        c.enable_func(c)
+        c.enabled = true
+        log:info('%s ENABLED', c.name)
+        log:system('%s ENABLED', c.name)
     end
 
-    cheat.disable = function(self)
-        if not self.enabled then return end
-        self.disable_func(self)
-        self.enabled = false
-        log:info('%s DISABLED', self.name)
-        log:system('%s DISABLED', self.name)
+    cheat.disable = function(c)
+        if not c.enabled then return end
+        c.disable_func(c)
+        c.enabled = false
+        log:info('%s DISABLED', c.name)
+        log:system('%s DISABLED', c.name)
     end
 
-    cheat.toggle = function(self)
-        if self.enabled then self:disable() else self:enable() end
+    cheat.toggle = function(c)
+        if c.enabled then c:disable() else c:enable() end
     end
 
     rawset(self.cheats, id, cheat)
@@ -96,11 +96,11 @@ local function init_cheat(id)
 end
 
 setmetatable(cm.cheats, {
-    __index = function(tbl, key) return init_cheat(key) end
+    __index = function(_, key) return init_cheat(key) end
 })
 
 setmetatable(cm, {
-    __index = function(tbl, key)
+    __index = function(_, key)
         local cheat = rawget(cm.cheats, key)
         if cheat then return cheat end
         return init_cheat(key)

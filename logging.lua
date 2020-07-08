@@ -1,5 +1,4 @@
 local type = type
-local ipairs = ipairs
 local tostring = tostring
 local sformat = string.format
 local supper = string.upper
@@ -89,9 +88,9 @@ function log:objective(title, message, ...)
 end
 
 setmetatable(log, {
-    __call = function(tbl, context, ...)
+    __call = function(tbl, context)
         return setmetatable({ context = context }, {
-            __index = function(t, k) return tbl[k] end,
+            __index = function(_, k) return tbl[k] end,
             __call = function(t, c, ...)
                 return getmetatable(tbl).__call(tbl, t.context .. '.' .. c, ...)
             end

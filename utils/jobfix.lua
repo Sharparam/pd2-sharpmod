@@ -1,5 +1,5 @@
-local sm = SharpMod
-local log = sm.log
+--local sm = _G.SharpMod
+--local log = sm.log
 
 --Hard jobs for everyone!
 -- if JobManager then

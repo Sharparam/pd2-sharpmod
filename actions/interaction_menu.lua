@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local cm = sm.cheat_manager
 
 local options = {

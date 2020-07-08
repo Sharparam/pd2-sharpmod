@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 if sm.interaction then return sm.interaction end
@@ -11,11 +11,7 @@ local function is_server() return Network:is_server() end
 
 local pairs = pairs
 local insert = table.insert
-local tab_contains = table.contains
-local select = select
 local executewithdelay = executewithdelay
-
-local clone = clone
 
 local Vector3 = Vector3
 local Rotation = Rotation
@@ -56,7 +52,7 @@ function sm.interaction:interactbytweak(...)
         tweaks[arg] = true
     end
 
-    for key, unit in pairs(M_interaction._interactive_units) do
+    for _, unit in pairs(M_interaction._interactive_units) do
         local interaction = unit.interaction
         interaction = interaction and interaction(unit)
         if interaction and tweaks[interaction.tweak_data] then
@@ -74,7 +70,13 @@ function sm.interaction:testopenallvaults()
 end
 
 function sm.interaction:openalldoors()
-    self:interactbytweak("pick_lock_easy_no_skill", "pick_lock_hard_no_skill", "pick_lock_hard", "open_from_inside", "open_train_cargo_door")
+    self:interactbytweak(
+        "pick_lock_easy_no_skill",
+        "pick_lock_hard_no_skill",
+        "pick_lock_hard",
+        "open_from_inside",
+        "open_train_cargo_door"
+    )
 end
 
 function sm.interaction:testshapeinteract()
@@ -102,7 +104,7 @@ function sm.interaction:bag_people()
         local send_to_host = session.send_to_host
         local server_drop_carry = M_player.server_drop_carry
 
-        local is_client = is_client()
+        local is_cl = is_client()
 
         local name = 'person'
         local carry_data = T_carry[name]
@@ -118,7 +120,7 @@ function sm.interaction:bag_people()
             local unit = interaction._unit
             local u_id = managers.enemy:get_corpse_unit_data_from_key(unit:key()).u_id
 
-            if is_client then
+            if is_cl then
                 send_to_host(session,
                     "server_drop_carry",
                     name,
@@ -158,17 +160,45 @@ function sm.interaction:bag_people()
 end
 
 function sm.interaction:grabsmallloot()
-    self:interactbytweak("safe_loot_pickup", "diamond_pickup", "tiara_pickup", "money_wrap_single_bundle", "invisible_interaction_open", "mus_pku_artifact")
+    self:interactbytweak(
+        "safe_loot_pickup",
+        "diamond_pickup",
+        "tiara_pickup",
+        "money_wrap_single_bundle",
+        "invisible_interaction_open",
+        "mus_pku_artifact")
 end
 
 function sm.interaction:graballbigloot()
     if not is_server() then return end
     sm:dofile 'actions/carrystacker'
-    self:interactbytweak("carry_drop", "painting_carry_drop", "money_wrap", "gen_pku_jewelry", "taking_meth", "gen_pku_cocaine", "take_weapons", "gold_pile", "hold_take_painting", "invisible_interaction_open", "gen_pku_artifact", "gen_pku_artifact_statue", "gen_pku_artifact_painting")
+    self:interactbytweak(
+        "carry_drop",
+        "painting_carry_drop",
+        "money_wrap",
+        "gen_pku_jewelry",
+        "taking_meth",
+        "gen_pku_cocaine",
+        "take_weapons",
+        "gold_pile",
+        "hold_take_painting",
+        "invisible_interaction_open",
+        "gen_pku_artifact",
+        "gen_pku_artifact_statue",
+        "gen_pku_artifact_painting"
+    )
 end
 
 function sm.interaction:quicklyrobstuff()
-    self:interactbytweak('weapon_case', 'cash_register', 'requires_ecm_jammer_atm', 'pick_lock_hard', 'pick_lock_hard_no_skill', 'pick_lock_deposit_transport', 'gage_assignment')
+    self:interactbytweak(
+        'weapon_case',
+        'cash_register',
+        'requires_ecm_jammer_atm',
+        'pick_lock_hard',
+        'pick_lock_hard_no_skill',
+        'pick_lock_deposit_transport',
+        'gage_assignment'
+    )
     executewithdelay(function() self:grabsmallloot() end, 1)
 end
 
@@ -192,14 +222,24 @@ function sm.interaction:testclearrats0()
     if is_server() then
         self:testclearrats1()
     else
-        executewithdelay(function() self:testclearrats1() end, 1) --Due sync delays, we gotta clear our inventory as fast as possible.
+        -- Due sync delays, we gotta clear our inventory as fast as possible.
+        executewithdelay(function() self:testclearrats1() end, 1)
     end
 end
 
 function sm.interaction:quick_elday_2()
     self:interactbytweak('crate_loot_crowbar', 'crate_loot')
 
-    local start_vote = function() self:interactbytweak('votingmachine1', 'votingmachine2', 'votingmachine3', 'votingmachine4', 'votingmachine5', 'votingmachine6') end
+    local start_vote = function()
+        self:interactbytweak(
+            'votingmachine1',
+            'votingmachine2',
+            'votingmachine3',
+            'votingmachine4',
+            'votingmachine5',
+            'votingmachine6'
+        )
+    end
     executewithdelay(start_vote, 3)
 end
 

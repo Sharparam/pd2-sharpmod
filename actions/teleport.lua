@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 if not sm.teleport then
     local M_player = managers.player
     local players_tab = M_player._players
@@ -36,14 +36,14 @@ if not sm.teleport then
         end
     end
 
-    local M_player = managers.player
-    local warp_to = M_player.warp_to
-    local rot0 = Rotation(0,0,0)
+    local m_player = managers.player
+    local warp_to = m_player.warp_to
+    --local rot0 = Rotation(0,0,0)
 
     sm.teleport = function()
-        local ray = get_ray(SharpMod.options.penetrating_teleport)
+        local ray = get_ray(_G.SharpMod.options.penetrating_teleport)
         if ray then
-            warp_to(M_player, ray.hit_position, M_player:player_unit():camera():rotation())
+            warp_to(m_player, ray.hit_position, m_player:player_unit():camera():rotation())
         end
     end
 end

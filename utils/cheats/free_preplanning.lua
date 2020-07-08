@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 local cm = sm.cheat_manager
 local backuper = sm.backuper

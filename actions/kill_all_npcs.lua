@@ -60,7 +60,15 @@ local function dmg_cam(unit)
     end
     col_ray.body = body
     col_ray.body:extension().damage:damage_melee(unit, col_ray.normal, col_ray.position, col_ray.direction, 10000)
-    managers.network:session():send_to_peers_synched("sync_body_damage_melee", col_ray.body, unit, col_ray.normal, col_ray.position, col_ray.direction, 10000)
+    managers.network:session():send_to_peers_synched(
+        "sync_body_damage_melee",
+        col_ray.body,
+        unit,
+        col_ray.normal,
+        col_ray.position,
+        col_ray.direction,
+        10000
+    )
 end
 
 
@@ -70,7 +78,7 @@ for _, ud in pairs(managers.enemy:all_enemies()) do
     end
 end
 
-if SharpMod.options.kill_civilians then
+if _G.SharpMod.options.kill_civilians then
     for _, ud in pairs(managers.enemy:all_civilians()) do
         if not is_hostage(ud.unit) then
             pcall(dmg_melee, ud.unit)

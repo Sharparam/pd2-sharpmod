@@ -1,4 +1,4 @@
-local log = SharpMod.log 'meth'
+local log = _G.SharpMod.log 'meth'
 
 local ingredient_hints = {
     --pln_rt1_12 = 'Ingredient added',

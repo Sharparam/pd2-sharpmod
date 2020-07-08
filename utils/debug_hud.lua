@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 if not sm.debug_hud then
@@ -13,11 +13,32 @@ if not sm.debug_hud then
 
     function DebugGui:init()
         self.ws = Overlay:newgui():create_screen_workspace()
-        self.panel = self.ws:panel():text { x = self.debug_x * RenderSettings.resolution.x, y = self.debug_y * RenderSettings.resolution.y, text="", font="core/fonts/diesel", font_size = self.size * RenderSettings.resolution.x, color = Color.white, layer=2000 }
+        self.panel = self.ws:panel():text {
+            x = self.debug_x * RenderSettings.resolution.x,
+            y = self.debug_y * RenderSettings.resolution.y,
+            text = "",
+            font = "core/fonts/diesel",
+            font_size = self.size * RenderSettings.resolution.x,
+            color = Color.white,
+            layer = 2000
+        }
         self.last_upd_t = Application:time()
         self.upd_timer = 0
         self._panels = {}
-        self.groups = { { group = managers.enemy:all_civilians(), color = Color.cyan }, { group = managers.enemy:all_enemies(), color = Color.green }, { group = managers.groupai:state():all_AI_criminals(), color = Color.white } }
+        self.groups = {
+            {
+                group = managers.enemy:all_civilians(),
+                color = Color.cyan
+            },
+            {
+                group = managers.enemy:all_enemies(),
+                color = Color.green
+            },
+            {
+                group = managers.groupai:state():all_AI_criminals(),
+                color = Color.white
+            }
+        }
         self.text = ""
     end
 
@@ -68,10 +89,22 @@ if not sm.debug_hud then
             local screen_x = (my_head_pos_screen.x + 1) * 0.5 * RenderSettings.resolution.x
             local screen_y = (my_head_pos_screen.y + 1) * 0.53 * RenderSettings.resolution.y
 
-            local text = "Health: " .. math.ceil(data.unit:character_damage()._health) .. " / " .. math.ceil(data.unit:character_damage()._HEALTH_INIT)
+            local text = "Health: "
+                .. math.ceil(data.unit:character_damage()._health)
+                .. " / "
+                .. math.ceil(data.unit:character_damage()._HEALTH_INIT)
 
             if not c_panel then
-                self._panels[key] = panel:text{ name = "text", x = screen_x, y = screen_y, text = text, font = tweak_data.hud.medium_font, font_size = 20, color = color or Color.white, layer = 1 }
+                self._panels[key] = panel:text {
+                    name = "text",
+                    x = screen_x,
+                    y = screen_y,
+                    text = text,
+                    font = tweak_data.hud.medium_font,
+                    font_size = 20,
+                    color = color or Color.white,
+                    layer = 1
+                }
             elseif my_head_pos_screen.z > 0 then
                 c_panel:set_x(screen_x)
                 c_panel:set_y(screen_y)
@@ -84,7 +117,7 @@ if not sm.debug_hud then
 
         for key, gui in pairs(self._panels) do
             local keep
-            for u_key, data in pairs(self.groups) do
+            for _, data in pairs(self.groups) do
                 if data.group[key] then
                     keep = true
                     break
@@ -128,30 +161,39 @@ if not sm.debug_hud then
         end
         if sm.options.debug_draw_nav then
             managers.navigation._debug = true
-            managers.navigation:set_debug_draw_state { quads = true, doors = true, vis_graph = true, coarse_graph = true, blockers = true, covers = true, pos_rsrv = true, nav_links = true }
+            managers.navigation:set_debug_draw_state {
+                quads = true,
+                doors = true,
+                vis_graph = true,
+                coarse_graph = true,
+                blockers = true,
+                covers = true,
+                pos_rsrv = true,
+                nav_links = true
+            }
         end
         if managers.debug then
             managers.debug:set_enabled_all(true, true)
             managers.debug.macro._check_fps = true
         end
 
-        function GroupAIStateBase:update(t, dt)
-            self._t = t
+        function GroupAIStateBase.update(state, t)
+            state._t = t
 
-            self:_upd_criminal_suspicion_progress()
+            state:_upd_criminal_suspicion_progress()
 
-            if self._draw_drama then
-                self:_debug_draw_drama(t)
+            if state._draw_drama then
+                state:_debug_draw_drama(t)
             end
 
-            self:_upd_debug_draw_attentions()
+            state:_upd_debug_draw_attentions()
             if sm.options.debughud_additional_esp then
-                self:_draw_enemy_importancies()
+                state:_draw_enemy_importancies()
             end
         end
 
-        function MissionManager:update(t, dt)
-            for _,script in pairs(self._scripts) do
+        function MissionManager.update(mgr, t, dt)
+            for _,script in pairs(mgr._scripts) do
                 script:update(t, dt)
                 if sm.options.debughud_mission_elements then
                     script:_debug_draw(t, dt)
@@ -159,22 +201,29 @@ if not sm.debug_hud then
             end
         end
 
-        function MissionScript:_debug_draw(t, dt)
+        function MissionScript._debug_draw(scr, t, dt)
             local name_brush = Draw:brush(Color.red)
             name_brush:set_font(Idstring("fonts/font_medium"), 16)
             name_brush:set_render_template(Idstring("OverlayVertexColorTextured"))
-            for _,element in pairs(self._elements) do
+            for _,element in pairs(scr._elements) do
                 name_brush:set_color(element:enabled() and Color.green or Color.red)
                 if element:value("position") then
                     if managers.viewport:get_current_camera() then
                         local cam_up = managers.viewport:get_current_camera():rotation():z()
                         local cam_right = managers.viewport:get_current_camera():rotation():x()
-                        name_brush:center_text(element:value("position") + Vector3(0, 0, 30), element:editor_name(), cam_right, -cam_up)
+                        name_brush:center_text(
+                            element:value("position") + Vector3(0, 0, 30),
+                            element:editor_name(),
+                            cam_right,
+                            -cam_up
+                        )
                     end
                 end
 
                 if element:value("rotation") then
-                    local rotation = CoreClass.type_name(element:value("rotation")) == "Rotation" and element:value("rotation") or Rotation(element:value("rotation"), 0, 0)
+                    local _ = CoreClass.type_name(element:value("rotation")) == "Rotation"
+                        and element:value("rotation")
+                        or Rotation(element:value("rotation"), 0, 0)
                 end
                 if sm.options.debughud_additional_elements then
                     element:debug_draw(t, dt)
@@ -192,6 +241,7 @@ if not sm.debug_hud then
 
     function debug_hud:disable()
         if not self.enabled then return end
+        local backuper = sm.backuper
         managers.groupai:state():set_drama_draw_state(false)
         managers.groupai:state():set_debug_draw_state(false)
         managers.mission:set_persistent_debug_enabled(false)

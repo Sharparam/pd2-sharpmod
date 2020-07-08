@@ -1,5 +1,5 @@
-local sm = SharpMod
-local log = sm.log
+local sm = _G.SharpMod
+--local log = sm.log
 local backuper = sm.backuper
 
 local insert = table.insert

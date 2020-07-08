@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 sm.carrystacker = sm.carrystacker or {}
 local cs = sm.carrystacker
 
@@ -44,7 +44,14 @@ if not cs.Setup then
         local cdata = tab_remove(self.carry_stack)
         if cdata then
             if self:is_carrying() then self:carry_discard() end
-            ofuncs.managers_player_set_carry(self, cdata.carry_id, cdata.value or 100, cdata.dye_initiated, cdata.has_dye_pack, cdata.dye_value_multiplier)
+            ofuncs.managers_player_set_carry(
+                self,
+                cdata.carry_id,
+                cdata.value or 100,
+                cdata.dye_initiated,
+                cdata.has_dye_pack,
+                cdata.dye_value_multiplier
+            )
         end
     end
 
@@ -54,7 +61,13 @@ if not cs.Setup then
         if #self.carry_stack > 0 then
             local cdata = tab_remove(self.carry_stack)
             if cdata then
-                self:set_carry(cdata.carry_id, cdata.value or 100, cdata.dye_initiated, cdata.has_dye_pack, cdata.dye_value_multiplier)
+                self:set_carry(
+                    cdata.carry_id,
+                    cdata.value or 100,
+                    cdata.dye_initiated,
+                    cdata.has_dye_pack,
+                    cdata.dye_value_multiplier
+                )
             end
         end
         self:refresh_stack_counter()
@@ -119,7 +132,13 @@ if not cs.Setup then
             managers.hud:present_mid_text({ title = "Carry Stack", text = cdata.carry_id .. " pushed", time = 1 })
         elseif #self.carry_stack > 0 then
             cdata = tab_remove(self.carry_stack)
-            self:set_carry(cdata.carry_id, cdata.value, cdata.dye_initiated, cdata.has_dye_pack, cdata.dye_value_multiplier)
+            self:set_carry(
+                cdata.carry_id,
+                cdata.value,
+                cdata.dye_initiated,
+                cdata.has_dye_pack,
+                cdata.dye_value_multiplier
+            )
             managers.hud:present_mid_text({ title = "Carry Stack", text = cdata.carry_id .. " popped", time = 1 })
         else
             managers.hud:present_mid_text({ title = "Carry Stack", text = "Empty", time = 1 })

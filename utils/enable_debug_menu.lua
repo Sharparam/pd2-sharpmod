@@ -4,4 +4,4 @@ if GameSetup then
 end
 
 Global.DEBUG_MENU_ON = true
-rawset(getmetatable(Application),"debug_enabled",function() return true end)
+rawset(getmetatable(Application), "debug_enabled", function() return true end)

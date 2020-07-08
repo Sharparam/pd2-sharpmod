@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 if not sm.item_unlocker then
     local iu = {}
 
@@ -41,7 +41,7 @@ if not sm.item_unlocker then
 
             local global_value = self:get_global_value(data)
             local count = self.add_counts[item_type] or 1
-            for i = 1, count do
+            for _ = 1, count do
                 managers.blackmarket:add_to_inventory(global_value, item_type, id)
             end
         end

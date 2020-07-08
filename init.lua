@@ -1,6 +1,6 @@
 local orig_log = log
 
-if not SharpMod then
+if not _G.SharpMod then
     log('Setting up SharpMod, ModPath = ' .. ModPath)
     local sm = {
         base_path = ModPath,
@@ -223,7 +223,7 @@ if not SharpMod then
     _G.SharpMod = sm
 end
 
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 sm:load_settings()
@@ -239,7 +239,7 @@ if not sm.backuper then
 end
 
 Hooks:Add("LocalizationManagerPostInit", "LocalizationManagerPostInit_SharpMod", function(loc)
-    loc:load_localization_file(SharpMod.base_path .. "loc/english.json")
+    loc:load_localization_file(_G.SharpMod.base_path .. "loc/english.json")
 end)
 
 if sm.options.disable_anticheat then sm:dofile('utils/disable_anticheat') end
@@ -262,5 +262,7 @@ if sm.hooks[required_script] then
         sm:dofile(script)
     end
 end
+
+log:info('_VERSION == %s', _VERSION)
 
 return sm

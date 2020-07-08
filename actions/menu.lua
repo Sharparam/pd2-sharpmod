@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log 'menu'
 
 local current_state = game_state_machine:current_state_name()

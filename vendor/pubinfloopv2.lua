@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 if sm.pubinfloopv2 then return end
 
 local void = void
@@ -21,7 +21,7 @@ local app_time = Application.time]]
 local os_clock = os.clock
 
 function GenerateRandomIdent(settings)
-    local lenght = settings.len
+    local length = settings.len
     local num = settings.num
     local uppercase = settings.up
     local lowercase = settings.low
@@ -50,15 +50,15 @@ function GenerateRandomIdent(settings)
             insert(possibilities,"num")
         end
         local mode = possibilities[random(1,#possibilities)]
-        local result
+        local ident
         if mode == "morechars" then
-            result = rand_by_mode["morechars"]()
+            ident = rand_by_mode["morechars"]()
         else
-            result = rand_by_mode[mode]
+            ident = rand_by_mode[mode]
         end
-        return result
+        return ident
     end
-    for _=1,lenght do
+    for _ = 1, length do
         insert(result, char(randomChar()))
     end
     return table.concat(result)
@@ -69,7 +69,8 @@ local ranThreads = {}
 local toAdd = {}
 local toRemove = {}
 
---Runs new loop. Returns loop's identity by what It can be easly stopped using StopLoopIdent. Use: RunNewLoop( function, single_argument )
+-- Runs new loop. Returns loop's identity by what It can be easly stopped using StopLoopIdent.
+-- Use: RunNewLoop( function, single_argument )
 function RunNewLoop( func, ... )
     assert(type(func) == 'function', 'Incorrect attributes passed')
     local ident = tostring(random())--GenerateRandomIdent{ len = 8, up = true, low = true, num = true }
@@ -133,20 +134,20 @@ do
         orig__update = update
     end
     local orig__update = orig__update
-    function update( ... )
-        orig__update( ... )
-        for k,f in pairs(ranThreads) do
+    function update(...)
+        orig__update(...)
+        for _,f in pairs(ranThreads) do
             pcall(unpack(f))
         end
         --Process all insertions/removes
-        if ( next(toRemove) ) then
-            for key,v in pairs(toRemove) do
+        if next(toRemove) then
+            for key, _ in pairs(toRemove) do
                 ranThreads[key] = nil
             end
             toRemove = {}
         end
-        if ( next(toAdd) ) then
-            for key,v in pairs(toAdd) do
+        if next(toAdd) then
+            for key, v in pairs(toAdd) do
                 ranThreads[key] = v
             end
             toAdd = {}
@@ -156,9 +157,11 @@ end
 
 local RunNewLoopIdent = RunNewLoopIdent
 local StopLoopIdent = StopLoopIdent
---Example, how RunNewLoop can be used in practice. 'executewithdelay' will delay execution of function, you passed into parameters.
---Use: executewithdelay( { func = function, params = { arguments } }, delay_in_seconds )
---Returns loop's ident
+
+-- Example, how RunNewLoop can be used in practice. 'executewithdelay' will delay execution of function,
+-- you passed into parameters.
+-- Use: executewithdelay( { func = function, params = { arguments } }, delay_in_seconds )
+-- Returns loop's ident
 function executewithdelay(callback,delay, id)
     if type(callback) == "function" then
         callback = { func = callback, params = {} }

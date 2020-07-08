@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 if sm.interactionspeed then return sm.interactionspeed end
@@ -13,24 +13,24 @@ local restore = backuper.restore
 function sm.interactionspeed:enable()
     if self.enabled then return end
 
-    function BaseInteractionExt:toggle_int_speed(speed)
-        if self.speed_changed and self.speed_changed == speed then
-            self:restore_speed()
+    function BaseInteractionExt.toggle_int_speed(ext, speed)
+        if ext.speed_changed and ext.speed_changed == speed then
+            ext:restore_speed()
             return
         end
-        self:set_int_speed(speed)
+        ext:set_int_speed(speed)
     end
 
-    function BaseInteractionExt:set_int_speed(speed)
-        self.speed_changed = speed
+    function BaseInteractionExt.set_int_speed(ext, speed)
+        ext.speed_changed = speed
         backup(backuper, 'BaseInteractionExt._get_timer')
         function BaseInteractionExt._get_timer() return speed end
         log:debug('Interaction speed set to %d', speed)
     end
 
-    function BaseInteractionExt:restore_speed()
+    function BaseInteractionExt.restore_speed(ext)
         restore(backuper, 'BaseInteractionExt._get_timer')
-        self.speed_changed = nil
+        ext.speed_changed = nil
         log:debug('Interaction speed restored')
     end
 

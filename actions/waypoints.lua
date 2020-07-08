@@ -1,25 +1,13 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 if not sm.waypoints then
     local waypoints = {}
     local waypoint_config = sm.options.waypoints
 
-    local function in_table(table, value) -- Is element in table
-        if type(table) == 'table' then
-            for i,x in pairs(table) do
-                if x == value then
-                    return true
-                end
-            end
-        end
-        return false
-    end
-
     local pairs = pairs
     local tostring = tostring
     local white = Color.white
-    local insert = table.insert
 
     local tweak_data = tweak_data
     local TD_interaction = tweak_data.interaction
@@ -88,13 +76,13 @@ if not sm.waypoints then
         local backup = backuper.backup
         local ObjectInteractionManager = ObjectInteractionManager
 
-        for id, unit in pairs(M_interaction._interactive_units) do
+        for _, unit in pairs(M_interaction._interactive_units) do
             add_waypoint(unit)
         end
 
         local remove_unit = backup(backuper, 'ObjectInteractionManager.remove_unit')
-        function ObjectInteractionManager:remove_unit(obj)
-            local result = remove_unit(self, obj)
+        function ObjectInteractionManager.remove_unit(mgr, obj)
+            local result = remove_unit(mgr, obj)
             if obj:interaction().tweak_data ~= "corpse_dispose" then
                 clear_waypoint(obj)
             end
@@ -102,8 +90,8 @@ if not sm.waypoints then
         end
 
         local add_unit = backup(backuper, 'ObjectInteractionManager.add_unit')
-        function ObjectInteractionManager:add_unit(obj)
-            local result = add_unit(self, obj)
+        function ObjectInteractionManager.add_unit(mgr, obj)
+            local result = add_unit(mgr, obj)
             if obj:interaction().tweak_data ~= "corpse_dispose" then
                 add_waypoint(obj)
             end
@@ -119,7 +107,7 @@ if not sm.waypoints then
 
         local backuper = sm.backuper
         local restore = backuper.restore
-        for id, unit in pairs(M_interaction._interactive_units) do
+        for _, unit in pairs(M_interaction._interactive_units) do
             clear_waypoint(unit)
         end
         restore(backuper, 'ObjectInteractionManager.remove_unit')

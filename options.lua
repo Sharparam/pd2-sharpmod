@@ -1,5 +1,5 @@
-Hooks:Add('MenuManagerInitialize', 'MenuManagerInitialize_SharpMod', function(menu_manager)
-    local sm = SharpMod
+Hooks:Add('MenuManagerInitialize', 'MenuManagerInitialize_SharpMod', function()
+    local sm = _G.SharpMod
     local log = sm.log
     MenuCallbackHandler.SharpMod_set_debug = function(self, item)
         sm.options.debug = item:value() == 'on'

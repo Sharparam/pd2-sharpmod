@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 log:info('TYING DOWN ALL CIVILIANS')
@@ -14,7 +14,7 @@ local pairs = pairs
 local player = M_player:player_unit()
 local all_civilians = M_enemy:all_civilians()
 
-for u_key, u_data in pairs(all_civilians) do
+for _, u_data in pairs(all_civilians) do
     local unit = u_data.unit
     local brain = unit:brain()
     if not brain:is_tied() then

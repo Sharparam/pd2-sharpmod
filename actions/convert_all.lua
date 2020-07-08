@@ -1,4 +1,4 @@
-local sm = SharpMod
+local sm = _G.SharpMod
 local log = sm.log
 
 local managers = managers
@@ -20,7 +20,7 @@ log:info('Converting EVERYONE')
 for _, ud in pairs(all_enemies) do
     local unit = ud.unit
     if not unit:brain()._logic_data.is_converted then
-        --Sometimes it fails to convert single unit
+        -- Sometimes it fails to convert single unit
         safecall(convert_hostage_to_criminal, AI_State, unit)
     end
 end
