@@ -17,40 +17,104 @@ if not sm.waypoints then
     local M_hud = managers.hud
     local M_interaction = managers.interaction
 
-    local replace_items = {
-        pickup_keycard = 'equipment_bank_manager_key',
-        crate_loot = 'equipment_barcode',
-        crate_loot_crowbar = 'equipment_barcode',
+    local DEFAULT_ICON = 'wp_standard'
+
+    local ARMOR_ICON = 'wp_scrubs'
+    local BAG_ICON = 'wp_bag'
+    local C4_ICON = 'equipment_c4'
+    local CRATE_ICON = 'equipment_barcode'
+    local DIAMOND_ICON = 'interaction_diamond'
+    local DOOR_ICON = 'wp_door'
+    local ECM_ICON = 'equipment_ecm_jammer'
+    local FOLDER_ICON = 'interaction_patientfile'
+    local GOLD_ICON = 'interaction_gold'
+    local KEYCARD_ICON = 'equipment_bank_manager_key'
+    local METH_INGREDIENT_ICON = 'pd2_methlab'
+    local MONEY_BAG_ICON = 'equipment_money_bag'
+    local MONEY_WRAP_ICON = 'interaction_money_wrap'
+    local WEAPON_ICON = 'ak'
+
+    local replace_icons = {
+        caustic_soda = METH_INGREDIENT_ICON,
+        crate_loot = CRATE_ICON,
+        crate_loot_crowbar = CRATE_ICON,
+        gen_pku_artifact_statue = ARMOR_ICON,
+        hydrogen_chloride = METH_INGREDIENT_ICON,
+        muriatic_acid = METH_INGREDIENT_ICON,
+        open_door = DOOR_ICON,
+        pickup_keycard = KEYCARD_ICON,
         stash_planks_pickup = 'equipment_planks',
-        take_weapons = 'ak',
-        take_weapons_axis_z = 'ak',
-        weapon_case = 'ak',
-        weapon_case_axis_z = 'ak'
+        take_weapons = WEAPON_ICON,
+        take_weapons_axis_z = WEAPON_ICON,
+        weapon_case = WEAPON_ICON,
+        weapon_case_axis_z = WEAPON_ICON,
+        [ [[c4]] ] = C4_ICON,
+        [ [[.+_armor]] ] = ARMOR_ICON,
+        [ [[folder]] ] = FOLDER_ICON
     }
 
     local temp = {}
 
+    local function is_tweak_enabled(tweak)
+        if waypoint_config[tweak] then return true end
+        for k, _ in pairs(waypoint_config) do
+            if tweak:match(k) then return true end
+        end
+        return false
+    end
+
+    local function get_tweak_icon(tweak)
+        local icon = replace_icons[tweak]
+        if icon then
+            log:debug('Tweak %s has a configured replacement icon %s', tweak, tostring(icon))
+            return icon
+        end
+
+        for k, replacement in pairs(replace_icons) do
+            if tweak:match(k) then
+                log:debug(
+                    'Tweak %s matches pattern %s which has a configured replacement icon %s',
+                    tweak,
+                    k,
+                    tostring(replacement)
+                )
+                return replacement
+            end
+        end
+
+        icon = TD_interaction[tweak].icon
+        if icon then
+            log:debug('Tweak %s has a default icon %s', tweak, tostring(icon))
+            return icon
+        end
+
+        local interaction_tweak = TD_interaction[tweak]
+        local special_equipment = interaction_tweak.special_equipment or interaction_tweak.special_equipment_block
+        local special_tweak = TD_E_Specials[special_equipment]
+        icon = special_tweak and special_tweak.icon
+
+        return icon or DEFAULT_ICON
+    end
+
+    local function make_id(unit)
+        return 'SharpMod_' .. tostring(unit:key())
+    end
+
     local function add_waypoint(unit)
         local tweak = unit:interaction().tweak_data
-        local icon = replace_items[tweak] or TD_interaction[tweak].icon
-
-        if not icon then
-            local interaction_tweak = TD_interaction[tweak]
-            local special_equipment = interaction_tweak.special_equipment or interaction_tweak.special_equipment_block
-            local special_tweak = TD_E_Specials[special_equipment]
-            icon = special_tweak and special_tweak.icon
-        end
+        local icon = get_tweak_icon(tweak)
 
         if not temp[tweak] and type(waypoint_config[tweak]) == 'nil' then
             log:warn('Waypoint tweak not configured: %s', tweak)
         end
 
-        if waypoint_config[tweak] then
+        if is_tweak_enabled(tweak) then
             if not temp[tweak] then
                 log:debug('Adding waypoint for %s', tweak)
             end
-            M_hud:add_waypoint(tostring(unit:key()), {
-                icon = icon or 'wp_standard',
+            local id = make_id(unit)
+            M_hud:add_waypoint(id, {
+                icon = icon,
                 distance = true,
                 position = unit:position(),
                 no_sync = true,
@@ -66,7 +130,7 @@ if not sm.waypoints then
     end
 
     local function clear_waypoint(obj)
-        M_hud:remove_waypoint(tostring(obj:key()))
+        M_hud:remove_waypoint(make_id(obj))
     end
 
     function waypoints:enable()
