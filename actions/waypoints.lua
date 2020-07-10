@@ -17,6 +17,8 @@ if not sm.waypoints then
     local M_hud = managers.hud
     local M_interaction = managers.interaction
 
+    local ID_PREFIX = 'SharpMod_'
+
     local DEFAULT_ICON = 'wp_standard'
 
     local ARMOR_ICON = 'wp_scrubs'
@@ -97,7 +99,7 @@ if not sm.waypoints then
     end
 
     local function make_id(unit)
-        return 'SharpMod_' .. tostring(unit:key())
+        return ID_PREFIX .. tostring(unit:key())
     end
 
     local function add_waypoint(unit)
@@ -130,7 +132,8 @@ if not sm.waypoints then
     end
 
     local function clear_waypoint(obj)
-        M_hud:remove_waypoint(make_id(obj))
+        if type(obj) ~= 'string' then obj = make_id(obj) end
+        M_hud:remove_waypoint(obj)
     end
 
     function waypoints:enable()
@@ -173,6 +176,12 @@ if not sm.waypoints then
         local restore = backuper.restore
         for _, unit in pairs(M_interaction._interactive_units) do
             clear_waypoint(unit)
+        end
+        for id, _ in pairs(M_hud._hud.waypoints) do
+            id = tostring(id)
+            if id:match('^' .. ID_PREFIX) then
+                clear_waypoint(id)
+            end
         end
         restore(backuper, 'ObjectInteractionManager.remove_unit')
         restore(backuper, 'ObjectInteractionManager.add_unit')
